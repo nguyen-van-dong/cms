@@ -14,13 +14,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Dnsoft\\Cms\\": "src/"
+            "Module\\Cms\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Dnsoft\\Cms\\CmsServiceProvider"
+                "Module\\Cms\\CmsServiceProvider"
             ]
         }
     }
