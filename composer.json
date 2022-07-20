@@ -1,0 +1,27 @@
+{
+    "name": "dnsoft/module-cms",
+    "description": "This is module cms",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Dong Nguyen",
+            "email": "dong.joseph2810@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "dnsoft/core": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dnsoft\\Cms\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dnsoft\\Cms\\CmsServiceProvider"
+            ]
+        }
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Cms",
+    "namespace": "Module\\Cms\\",
+    "description": "This is module cms",
+    "providers": [
+        "Module\\Cms\\CmsServiceProvider"
+    ]
+}
