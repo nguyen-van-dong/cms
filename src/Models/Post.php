@@ -3,12 +3,15 @@
 namespace Module\Cms\Models;
 
 use Dnsoft\Core\Traits\AttributeAndTranslatableTrait;
+use Dnsoft\Core\Traits\SlugAttributeTrait;
+use Dnsoft\Core\Traits\TaggableTrait;
 use Dnsoft\Media\Traits\HasMediaTrait;
 use Illuminate\Database\Eloquent\Model;
 use Module\Cms\Http\Controllers\Web\PostController;
 use Module\Seo\Traits\SeoableTrait;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Dnsoft\Media\Traits\HasMediaTraitFileManager;
 
 /**
  * Module\Cms\Models\Post
@@ -70,10 +73,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Post extends Model
 {
     use AttributeAndTranslatableTrait;
-    use HasMediaTrait;
+    // use HasMediaTrait;
     use LogsActivity;
     use SeoableTrait;
     use SearchableTrait;
+    use TaggableTrait;
+    use HasMediaTraitFileManager;
 
     protected static $logName = 'cms_post';
 
@@ -85,7 +90,8 @@ class Post extends Model
         'content',
         'is_active',
         'categories',
-        'thumbnail'
+        'thumbnail',
+        'tags'
     ];
 
     public $translatable = [
@@ -108,6 +114,16 @@ class Post extends Model
         ],
     ];
 
+    public function setThumbnailAttribute($value)
+    {
+        $this->mediaAttributes['thumbnail'] = $value;
+    }
+
+    public function getThumbnailAttribute()
+    {
+        return $this->getGallery('posts', 'thumbnail', null);
+    }
+
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'cms__category_post');
@@ -123,18 +139,6 @@ class Post extends Model
     public function author(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
-    }
-
-    public function setThumbnailAttribute($value)
-    {
-        static::saved(function ($model) use ($value) {
-            $model->syncMedia($value, 'thumbnail');
-        });
-    }
-
-    public function getThumbnailAttribute()
-    {
-        return $this->getFirstMedia('thumbnail');
     }
 
     public function getUrl(): string
