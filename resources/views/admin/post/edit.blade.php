@@ -65,6 +65,7 @@
                         </div>
                     </div>
                 </div>
+                @include('cms::admin.post.more-information', ['item' => $item])
             </div>
         </div>
     </form>
