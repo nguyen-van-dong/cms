@@ -20,7 +20,7 @@
 <div class="tab-content">
     <div class="tab-pane fade show active" id="cmsCategoryInfo">
         <div class="row">
-            <div class="col-12 col-md-9">
+            <div class="col-12">
                 @select(['name' => 'parent_id', 'label' => __('cms::category.parent'), 'options' => get_cms_category_parent_options()])
                 @input(['name' => 'name', 'label' => __('cms::category.name')])
                 {{--                @tags--}}
