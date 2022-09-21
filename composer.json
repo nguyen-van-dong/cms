@@ -9,9 +9,6 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
-        "dnsoft/core": "dev-master"
-    },
     "autoload": {
         "psr-4": {
             "Module\\Cms\\": "src/"
