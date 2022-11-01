@@ -74,7 +74,7 @@ class Post extends Model
 {
     use AttributeAndTranslatableTrait;
     // use HasMediaTrait;
-    use LogsActivity;
+    // use LogsActivity;
     use SeoableTrait;
     use SearchableTrait;
     use TaggableTrait;
@@ -121,7 +121,7 @@ class Post extends Model
 
     public function getThumbnailAttribute()
     {
-        return $this->getGallery('posts', 'thumbnail', null);
+        return $this->getGallery('post', 'thumbnail', null);
     }
 
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
