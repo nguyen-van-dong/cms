@@ -8,6 +8,7 @@ return [
     'content' => 'Content',
     'category' => 'Category',
     'viewed' => 'Viewed',
+    'comment' => 'Comment',
     'thumbnail' => 'Thumbnail',
     'language' => 'Language',
     'create' => [
@@ -28,5 +29,6 @@ return [
         'created' => 'Created post successfully.',
         'updated' => 'Updated post successfully.',
         'deleted' => 'Deleted post successfully.',
-    ]
+    ],
+    'introduce_myself' => "I'm a freelance Laravel web developer who loves contributing to open-source projects and building exciting systems to help businesses succeed."
 ];

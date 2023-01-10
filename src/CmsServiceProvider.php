@@ -60,8 +60,8 @@ class CmsServiceProvider extends BaseModuleServiceProvider
         require_once __DIR__.'/../helpers/helpers.php';
 
         $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/dnsoft/cms'),
-        ], 'dnsoft-cms');
+            __DIR__.'/../public' => public_path('vendor/cms'),
+        ], 'cms-module');
 
         Event::listen(ViewPostEvent::class, ViewPostListener::class);
 

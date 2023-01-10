@@ -66,10 +66,26 @@ class CategoryController extends Controller
     public function show($id)
     {
         MenuAdmin::activeMenu('cms_category');
-
         $category = $this->categoryRepository->find($id);
-
-        $items = $category->posts()->paginate(10);
+        $keyword = request('keyword');
+        $published = request('published');
+        if ($keyword && !$published) {
+            $items = $category->posts()->where('name', 'like', '%'. $keyword .'%')
+            ->orWhere('description', 'like', '%'. $keyword .'%')
+            ->orWhere('content', 'like', '%'. $keyword .'%')
+            ->orderBy('id', 'DESC')->paginate(10)->withQueryString();
+        } else if ($keyword && $published) {
+            $items = $category->posts()->where('is_active', $published)
+            ->orWhere('name', 'like', '%'. $keyword .'%')
+            ->orWhere('description', 'like', '%'. $keyword .'%')
+            ->orWhere('content', 'like', '%'. $keyword .'%')
+            ->orderBy('id', 'DESC')->paginate(10)->withQueryString();
+        } else if (!$keyword && (isset($published) && $published == 0) || (isset($published) && $published == 1)) {
+            $items = $category->posts()->where('is_active', $published)
+            ->orderBy('id', 'DESC')->paginate(10)->withQueryString();
+        } else {
+            $items = $category->posts()->orderBy('id', 'DESC')->paginate(10);
+        }
 
         return view('cms::admin.post.index', compact('category', 'items'));
     }

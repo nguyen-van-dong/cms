@@ -20,6 +20,7 @@
                 @sumoselect(['name' => 'categories', 'label' => __('cms::post.category'), 'multiple' => true, 'options' => get_cms_category_parent_options()])
                 @ckeditor(['name' => 'description', 'label' => __('cms::post.description'), ])
                 @ckeditor(['name' => 'content', 'label' => __('cms::post.content'), ])
+                @checkbox(['name' => 'is_active', 'label' => __('Is Published'),])
             </div>
         </div>
     </div>

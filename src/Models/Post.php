@@ -12,6 +12,7 @@ use Module\Seo\Traits\SeoableTrait;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Dnsoft\Media\Traits\HasMediaTraitFileManager;
+use Module\Comment\Models\Comment;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 
@@ -97,6 +98,11 @@ class Post extends Model implements Feedable
         'tags',
         'slug',
         'view_count',
+        'published_at',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime'
     ];
 
     public $translatable = [
@@ -189,7 +195,12 @@ class Post extends Model implements Feedable
      *
      * @return response()
      */
-    public  function getPreviousAttribute(){
+    public function getPreviousAttribute(){
         return static::where('id', '<', $this->id)->orderBy('id', 'desc')->first();
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'table');
     }
 }

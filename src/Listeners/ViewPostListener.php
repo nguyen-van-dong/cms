@@ -28,6 +28,10 @@ class ViewPostListener
      */
     public function handle(ViewPostEvent $event)
     {
+        $ip = request()->ip();
+        if (in_array($ip, $this->blackListIps())) {
+            return;
+        }
         $post = $event->post;
         if (!$this->isPostViewed($post))
 	    {
@@ -48,5 +52,13 @@ class ViewPostListener
 	    $key = 'viewed_posts.' . $post->id;
 
 	    $this->session->put($key, time());
+        \LogActivity::addToLog('Post detail');
 	}
+
+    private function blackListIps()
+    {
+        return [
+            // '127.0.0.1'
+        ];
+    }
 }

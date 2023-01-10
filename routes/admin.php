@@ -17,8 +17,8 @@ Route::prefix('cms')->group(function () {
             ->name('cms.admin.category.create')
             ->middleware('admin.can:cms.admin.category.create');
 
-        Route::get('move-up', [CategoryController::class, 'moveUp'])->name('cms.admin.category.move-up');
-        Route::get('move-down', [CategoryController::class, 'moveDown'])->name('cms.admin.category.move-down');
+        Route::get('{id}/move-up', [CategoryController::class, 'moveUp'])->name('cms.admin.category.move-up');
+        Route::get('{id}/move-down', [CategoryController::class, 'moveDown'])->name('cms.admin.category.move-down');
 
         Route::post('store', [CategoryController::class, 'store'])
             ->name('cms.admin.category.store')
@@ -76,6 +76,10 @@ Route::prefix('cms')->group(function () {
             ->name('cms.admin.post.edit')
             ->middleware('admin.can:cms.admin.post.edit');
 
+        Route::get('{id}/comments', [PostController::class, 'showComment'])
+            ->name('cms.admin.post.comment')
+            ->middleware('admin.can:cms.admin.post.comment');
+
         Route::put('{id}/update', [PostController::class, 'update'])
             ->name('cms.admin.post.update')
             ->middleware('admin.can:cms.admin.post.edit');
@@ -91,6 +95,10 @@ Route::prefix('cms')->group(function () {
         Route::delete('{id}/destroy', [PostController::class, 'destroy'])
             ->name('cms.admin.post.destroy')
             ->middleware('admin.can:cms.admin.post.destroy');
+
+        Route::post('published', [PostController::class, 'publish'])
+            ->name('cms.admin.post.publish')
+            ->middleware('admin.can:comment.admin.comment.publish');
 
         Route::prefix('post-attribute')->group(function () {
             Route::get('', [PostAttributeController::class, 'index'])
@@ -116,6 +124,7 @@ Route::prefix('cms')->group(function () {
             Route::delete('{id}', [PostAttributeController::class, 'destroy'])
                 ->name('cms.admin.post-attribute.destroy')
                 ->middleware('admin.can:cms.admin.post-attribute.destroy');
+
         });
     });
 

@@ -20,7 +20,7 @@ class PageController extends SeoController
     public function detail($id)
     {
         $item = $this->pageRepository->getById($id);
-        return view('cms::web.page.page-detail', compact('item' ));
+        return view('cms::web.page.page-detail', compact('item'));
     }
 
     public function renderPage($key)

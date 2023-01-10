@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use Module\Cms\Http\Requests\PostRequest;
 use Module\Cms\Models\Post;
 use Module\Cms\Repositories\PostRepositoryInterface;
+use Module\Comment\Models\Comment;
 
 class PostController extends Controller
 {
@@ -31,7 +32,25 @@ class PostController extends Controller
      */
     public function index()
     {
-        $items = $this->postRepository->paginate(10);
+        $keyword = request('keyword');
+        $published = request('published');
+        if ($keyword && !$published) {
+            $items = Post::where('name', 'like', '%'. $keyword .'%')
+            ->orWhere('description', 'like', '%'. $keyword .'%')
+            ->orWhere('content', 'like', '%'. $keyword .'%')
+            ->orderBy('id', 'DESC')->paginate(10)->withQueryString();
+        } else if ($keyword && $published) {
+            $items = Post::where('is_active', $published)
+            ->orWhere('name', 'like', '%'. $keyword .'%')
+            ->orWhere('description', 'like', '%'. $keyword .'%')
+            ->orWhere('content', 'like', '%'. $keyword .'%')
+            ->orderBy('id', 'DESC')->paginate(10)->withQueryString();
+        } else if (!$keyword && (isset($published) && $published == 0) || (isset($published) && $published == 1)) {
+            $items = Post::where('is_active', $published)
+            ->orderBy('id', 'DESC')->paginate(10)->withQueryString();
+        } else {
+            $items = $this->postRepository->paginate(10);
+        }
         return view('cms::admin.post.index', compact('items'));
     }
 
@@ -91,7 +110,11 @@ class PostController extends Controller
     public function update(PostRequest $request, $id)
     {
         $post = $this->postRepository->updateById($request->all(), $id);
-
+        if ($request->is_active && !$post->published_at) {
+            $post->update([
+                'published_at' => now(),
+            ]);
+        }
         if ($request->input('continue')) {
             return redirect()
                 ->route('cms.admin.post.edit', $post->id)
@@ -123,5 +146,35 @@ class PostController extends Controller
         return redirect()
             ->route('cms.admin.post.index')
             ->with('success', __('cms::post.notification.deleted'));
+    }
+
+    /**
+     * Show comment of post
+     */
+    public function showComment($id)
+    {
+        if (check_module_is_active('comment')) {
+            MenuAdmin::activeMenu('cms_post');
+            $items = Comment::where(['table_id' => $id, 'table_type' => Post::class])->withDepth()->defaultOrder()->get();
+            return view('cms::admin.post.comment', compact('items'));
+        }
+        return response()->json(['message' => 'Module comment not found!!!']);
+    }
+
+    /**
+     * Pubish post
+     */
+    public function publish(Request $request)
+    {
+        $post = $this->postRepository->find($request->post_id);
+        $post->update([
+            'is_active' => $request->is_publish,
+            'published_at' => now(),
+        ]);
+        return response()->json([
+            'success' => true,
+            'is_published' => $request->is_publish,
+            'post_id' => $post->id
+        ]);
     }
 }

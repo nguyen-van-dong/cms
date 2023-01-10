@@ -9,7 +9,12 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard.index') }}">Home</a></li>
+                        @if (!isset($category))
                         <li class="breadcrumb-item active">{{ __('cms::post.index.page_title') }}</li>
+                        @else
+                        <li class="breadcrumb-item"><a href="{{ route('cms.admin.post.index') }}">{{ __('cms::post.index.page_title') }}</a></li>
+                        <li class="breadcrumb-item active">{{ $category->name }}</li>
+                        @endif
                     </ol>
                 </div>
                 <h4 class="page-title">{{ __('cms::post.index.page_title') }}</h4>
@@ -24,16 +29,27 @@
             <div class="col-sm-12">
                 <div class="card-box">
                     <div class="mb-2">
-                        <div class="row">
-                            <div class="col-12 text-sm-center form-inline">
-                                <div class="form-group mr-2">
+                        <form>
+                            <div class="row">
+                                <div class="col-2 form-inline">
                                     <a id="demo-btn-addrow" class="btn btn-primary" href="{{ route('cms.admin.post.create') }}"><i class="mdi mdi-plus-circle mr-2"></i> Add New Post</a>
                                 </div>
-                                <div class="form-group">
-                                    <input id="demo-input-search2" type="text" placeholder="Search" class="form-control" autocomplete="off">
+                                <div class="col-4">
+                                    <input id="demo-input-search2" type="text" placeholder="Search" class="form-control" autocomplete="off" name="keyword" value="{{ request('keyword') }}">
+                                </div>
+                                <div class="col-3">
+                                    @php($published = (request('published')))
+                                    <select class="form-control" name="published">
+                                        <option value="">----- Please choose option -----</option>
+                                        <option value="1" @if (isset($published) && request('published') == 1) selected @endif>Published</option>
+                                        <option value="0" @if ( isset($published) && request('published') == 0) selected @endif>UnPublised</option>
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <input type="submit" value="Search" class="btn btn-secondary">
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
@@ -41,13 +57,13 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ __('ID') }}</th>
+                                    <th>ID</th>
                                     <th>{{ __('cms::post.name') }}</th>
                                     <th>{{ __('cms::post.category') }}</th>
                                     <th>{{ __('cms::post.viewed') }}</th>
-                                    <th>{{ __('cms::post.is_active') }}</th>
+                                    <th>{{ __('cms::post.comment') }}</th>
+                                    <th>{{ __('Published at') }}</th>
                                     <th>@translatableHeader</th>
-                                    <th>{{ __('cms::post.created_at') }}</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -60,7 +76,7 @@
                                             <label class="custom-control-label" for="customCheck{{ $item->id }}">&nbsp;</label>
                                         </div>
                                     </td>
-                                    <td><a href="{{ route('cms.admin.post.edit', $item->id) }}">{{ $item->id }}</a></td>
+                                    <td>{{ $item->id }}</td>
                                     <td><a href="{{ route('cms.admin.post.edit', $item->id) }}">{{ $item->name }}</a></td>
                                     <td>
                                         @foreach($item->categories as $category)
@@ -69,16 +85,26 @@
                                         </span>
                                         @endforeach
                                     </td>
-                                    <td>{{ $item->viewed }}</td>
+                                    <td>{{ $item->view_count }}</td>
                                     <td>
-                                        @if($item->is_active)
+                                        <a href="{{ route('cms.admin.post.comment', $item->id) }}">{{ $item->comments->count() }}</a>
+                                    </td>
+                                    <td>
+                                        @if ($item->is_active)
                                             <i class="fas fa-check text-success"></i>
+                                            <a href="#" data-post-id="{{ $item->id }}" title="Un-published" data-is_publish="0" class="mr-1 btnUnPublish">
+                                                Un-published Now
+                                            </a>
+                                        @else
+                                            <i class="fa fa-minus-square" style="color: red"></i>
+                                            <a href="#" data-post-id="{{ $item->id }}" title="Publish now" data-is_publish="1" class="mr-1 btnPublishPost">
+                                                Published Now
+                                            </a>
                                         @endif
                                     </td>
                                     <td>
                                         @translatableStatus(['editUrl' => route('cms.admin.post.edit', $item->id)])
                                     </td>
-                                    <td>{{ $item->created_at }}</td>
                                     <td class="text-right">
                                         @admincan('cms.admin.post.edit')
                                         <a href="{{ route('cms.admin.post.edit', $item->id) }}" class="btn btn-success-soft btn-sm mr-1" style="background-color: rgb(211 250 255); color: #0fac04; width: 32px;border-color: rgb(167 255 247); border: 1px solid">
@@ -97,7 +123,9 @@
                                 </tbody>
                             </table>
                         </div>
-                       {{ $items->links() }}
+                        <div class="mt-3">
+                        {{ $items->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -181,4 +209,6 @@
         }
 
     </script>
+
+    <script src="{{ asset('vendor/cms/asset/admin/js/post.js') }}"></script>
 @endpush

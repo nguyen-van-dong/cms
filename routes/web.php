@@ -13,4 +13,7 @@ Route::prefix(LaravelLocalization::setLocale())->group(function () {
 
     // Page Detail
     Route::get('page/{id}', [PageController::class, 'detail'])->name('cms.web.page.detail');
+
 });
+
+Route::feeds();

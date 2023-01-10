@@ -26,10 +26,12 @@ class CategoryController extends SeoController
 
     public function detail($id)
     {
-        $totalPosts = Post::count();
+        $totalPosts = Post::where('is_active', 1)->count();
         $item = $this->categoryRepository->getById($id);
-        $categories = Category::where('is_active', 1)->get();
-        $posts = $item->posts()->orderBy('id', 'DESC')->paginate(10);
+        $categories = Category::with(['posts' => function($query) {
+            $query->where('is_active', 1);
+        }])->where('is_active', 1)->defaultOrder()->get();
+        $posts = $item->posts()->where('is_active', 1)->orderBy('id', 'DESC')->paginate(10);
         return view('web.blog.index', compact('item', 'posts', 'totalPosts', 'categories'));
     }
 }
