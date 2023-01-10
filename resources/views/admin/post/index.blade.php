@@ -210,5 +210,5 @@
 
     </script>
 
-    <script src="{{ asset('vendor/cms/asset/admin/js/post.js') }}"></script>
+    <script src="{{ asset('vendor/cms/assets/admin/js/post.js') }}"></script>
 @endpush

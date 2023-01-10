@@ -153,12 +153,17 @@ class PostController extends Controller
      */
     public function showComment($id)
     {
-        if (check_module_is_active('comment')) {
-            MenuAdmin::activeMenu('cms_post');
+        MenuAdmin::activeMenu('cms_post');
+        $keyword = request('keyword');
+        if ($keyword) {
+            $items = Comment::where(['table_id' => $id, 'table_type' => Post::class])
+                ->andWhere('name', 'like', '%'. $keyword .'%')
+                ->orWhere('content', 'like', '%'. $keyword .'%')
+                ->withDepth()->defaultOrder()->get();
+        } else {
             $items = Comment::where(['table_id' => $id, 'table_type' => Post::class])->withDepth()->defaultOrder()->get();
-            return view('cms::admin.post.comment', compact('items'));
         }
-        return response()->json(['message' => 'Module comment not found!!!']);
+        return view('cms::admin.post.comment', compact('items'));
     }
 
     /**
