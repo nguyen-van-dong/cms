@@ -157,7 +157,7 @@ class PostController extends Controller
         $keyword = request('keyword');
         if ($keyword) {
             $items = Comment::where(['table_id' => $id, 'table_type' => Post::class])
-                ->andWhere('name', 'like', '%'. $keyword .'%')
+                ->where('title', 'like', '%'. $keyword .'%')
                 ->orWhere('content', 'like', '%'. $keyword .'%')
                 ->withDepth()->defaultOrder()->get();
         } else {
