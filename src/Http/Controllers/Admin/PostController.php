@@ -31,7 +31,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $items = $this->postRepository->paginate(20);
+        $items = $this->postRepository->paginate(10);
         return view('cms::admin.post.index', compact('items'));
     }
 
@@ -43,7 +43,7 @@ class PostController extends Controller
     public function create()
     {
         MenuAdmin::activeMenu('cms_post');
-        $item = [];
+        $item = null;
         return view('cms::admin.post.create', compact('item'));
     }
 

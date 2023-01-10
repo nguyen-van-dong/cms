@@ -18,12 +18,13 @@ class CreateCmsPostsTable extends Migration
             $table->longText('name')->nullable();
             $table->longText('description')->nullable();
             $table->longText('content')->nullable();
-            $table->string('slug')->nullable();
+            $table->text('slug')->nullable();
             $table->string('post_type')->nullable();
             $table->boolean('is_active')->default(1);
             $table->boolean('is_sticky')->default(0);
             $table->smallInteger('sort_order')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->integer('view_count')->default(0);
             $table->nullableMorphs('author');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
@@ -37,6 +38,6 @@ class CreateCmsPostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cms_posts');
+        Schema::dropIfExists('cms__posts');
     }
 }

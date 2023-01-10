@@ -63,6 +63,17 @@ class CategoryController extends Controller
         return view('cms::admin.category.edit', compact('item'));
     }
 
+    public function show($id)
+    {
+        MenuAdmin::activeMenu('cms_category');
+
+        $category = $this->categoryRepository->find($id);
+
+        $items = $category->posts()->paginate(10);
+
+        return view('cms::admin.post.index', compact('category', 'items'));
+    }
+
     public function update($id, CategoryRequest $request)
     {
         $item = $this->categoryRepository->updateById($request->all(), $id);

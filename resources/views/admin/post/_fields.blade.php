@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-12 col-md-12">
                 @input(['name' => 'name', 'label' => __('cms::post.name'), ])
-                @sumoselect(['name' => 'categories', 'label' => __('cms::post.category'), 'options' => get_cms_category_parent_options()])
+                @sumoselect(['name' => 'categories', 'label' => __('cms::post.category'), 'multiple' => true, 'options' => get_cms_category_parent_options()])
                 @ckeditor(['name' => 'description', 'label' => __('cms::post.description'), ])
                 @ckeditor(['name' => 'content', 'label' => __('cms::post.content'), ])
             </div>

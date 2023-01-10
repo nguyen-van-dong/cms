@@ -2,6 +2,8 @@
 
 namespace Module\Cms\Http\Controllers\Web;
 
+use Module\Cms\Models\Category;
+use Module\Cms\Models\Post;
 use Module\Cms\Repositories\CategoryRepositoryInterface;
 use Module\Seo\Http\Controllers\Web\SeoController;
 
@@ -24,13 +26,10 @@ class CategoryController extends SeoController
 
     public function detail($id)
     {
+        $totalPosts = Post::count();
         $item = $this->categoryRepository->getById($id);
-        $subCategory = $item->children()->get();
-        if ($subCategory->count() > 0) {
-            return view('cms::web.page.category', compact('item', 'subCategory'));
-        } else {
-            $posts = $item->posts()->paginate(config('cms.item_in_category', 8));
-            return view('cms::web.page.category-detail', compact('item', 'posts'));
-        }
+        $categories = Category::where('is_active', 1)->get();
+        $posts = $item->posts()->orderBy('id', 'DESC')->paginate(10);
+        return view('web.blog.index', compact('item', 'posts', 'totalPosts', 'categories'));
     }
 }

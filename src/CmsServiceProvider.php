@@ -17,6 +17,8 @@ use Module\Cms\Repositories\PageRepositoryInterface;
 use Module\Cms\Repositories\PostRepository;
 use Module\Cms\Repositories\PostRepositoryInterface;
 use Dnsoft\Core\Support\BaseModuleServiceProvider;
+use Module\Cms\Events\ViewPostEvent;
+use Module\Cms\Listeners\ViewPostListener;
 use Module\Cms\Services\PageService;
 
 class CmsServiceProvider extends BaseModuleServiceProvider
@@ -60,6 +62,8 @@ class CmsServiceProvider extends BaseModuleServiceProvider
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/dnsoft/cms'),
         ], 'dnsoft-cms');
+
+        Event::listen(ViewPostEvent::class, ViewPostListener::class);
 
         AliasLoader::getInstance()->alias('Page', \Module\Cms\Facades\Page::class);
     }

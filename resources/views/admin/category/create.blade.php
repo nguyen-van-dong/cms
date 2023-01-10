@@ -27,17 +27,27 @@
             <div class="col-md-8">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">{{ __('cms::category.create.page_title') }}</h3>
-                        @translatableAlert
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="fs-17 font-weight-600 mb-2">
+                                    {{ __('cms::post.create.page_title') }}
+                                </h4>
+                                @translatableAlert
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-success" type="submit">{{ __('core::button.save') }}</button>
+                                <button class="btn btn-primary" name="continue" value="1" type="submit">{{ __('core::button.save_and_edit') }}</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         @include('cms::admin.category._fields', ['item' => $item])
                     </div>
 
-
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">{{ __('core::button.save') }}</button>
-                        <button class="btn btn-secondary" name="continue" value="1" type="submit">{{ __('core::button.save_and_edit') }}</button>
+                    <div class="card-footer text-right">
+                        <button type="submit" class="btn btn-success">{{ __('core::button.save') }}</button>
+                        <button class="btn btn-primary" name="continue" value="1" type="submit">{{ __('core::button.save_and_edit') }}</button>
                     </div>
                 </div>
             </div>

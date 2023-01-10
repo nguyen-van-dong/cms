@@ -27,7 +27,7 @@
                         <div class="row">
                             <div class="col-12 text-sm-center form-inline">
                                 <div class="form-group mr-2">
-                                    <a id="demo-btn-addrow" class="btn btn-primary" href="{{ route('cms.admin.post.create') }}"><i class="mdi mdi-plus-circle mr-2"></i> Add New</a>
+                                    <a id="demo-btn-addrow" class="btn btn-primary" href="{{ route('cms.admin.post.create') }}"><i class="mdi mdi-plus-circle mr-2"></i> Add New Post</a>
                                 </div>
                                 <div class="form-group">
                                     <input id="demo-input-search2" type="text" placeholder="Search" class="form-control" autocomplete="off">
@@ -43,6 +43,8 @@
                                     <th>#</th>
                                     <th>{{ __('ID') }}</th>
                                     <th>{{ __('cms::post.name') }}</th>
+                                    <th>{{ __('cms::post.category') }}</th>
+                                    <th>{{ __('cms::post.viewed') }}</th>
                                     <th>{{ __('cms::post.is_active') }}</th>
                                     <th>@translatableHeader</th>
                                     <th>{{ __('cms::post.created_at') }}</th>
@@ -60,6 +62,14 @@
                                     </td>
                                     <td><a href="{{ route('cms.admin.post.edit', $item->id) }}">{{ $item->id }}</a></td>
                                     <td><a href="{{ route('cms.admin.post.edit', $item->id) }}">{{ $item->name }}</a></td>
+                                    <td>
+                                        @foreach($item->categories as $category)
+                                        <span style="background: aquamarine; padding: 5px; border-radius: 5px; color: white">
+                                            <a href="{{ route('cms.admin.category.show', $category->id) }}">{{ $category->name }}</a>
+                                        </span>
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $item->viewed }}</td>
                                     <td>
                                         @if($item->is_active)
                                             <i class="fas fa-check text-success"></i>

@@ -7,6 +7,7 @@ return [
     'description' => 'Description',
     'content' => 'Content',
     'category' => 'Category',
+    'viewed' => 'Viewed',
     'thumbnail' => 'Thumbnail',
     'language' => 'Language',
     'create' => [

@@ -2,6 +2,7 @@
 
 return [
     'name' => 'Name',
+    'total' => 'Số bài viết',
     'description' => 'Description',
     'parent' => 'Parent',
     'is_active' => 'Is active',

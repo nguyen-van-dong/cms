@@ -42,6 +42,7 @@
                         <tr>
                             <th>{{ __('ID') }}</th>
                             <th>{{ __('cms::category.name') }}</th>
+                            <th>{{ __('cms::category.total') }}</th>
                             <th>{{ __('cms::category.is_active') }}</th>
                             <th>@translatableHeader</th>
                             <th>{{ __('cms::category.created_at') }}</th>
@@ -61,6 +62,7 @@
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </td>
+                                <td>{{ $item->posts()->count() }}</td>
                                 <td>
                                     @if($item->is_active)
                                         <i class="fas fa-check text-success"></i>

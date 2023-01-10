@@ -17,7 +17,7 @@ class CreateCmsCategoriesTable extends Migration
             $table->id();
             $table->longText('name')->nullable();
             $table->longText('description')->nullable();
-            $table->string('slug')->nullable();
+            $table->text('slug')->nullable();
             $table->boolean('is_active')->default(true);
             $table->nestedSet();
             $table->timestamps();
@@ -32,6 +32,6 @@ class CreateCmsCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cms_categories');
+        Schema::dropIfExists('cms__categories');
     }
 }

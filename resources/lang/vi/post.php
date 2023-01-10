@@ -7,6 +7,7 @@ return [
     'description' => 'Description',
     'content' => 'Content',
     'category' => 'Category',
+    'viewed' => 'Số lượt xem',
     'thumbnail' => 'Thumbnail',
     'language' => 'Language',
     'create' => [

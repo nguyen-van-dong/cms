@@ -2,6 +2,7 @@
 
 return [
     'name' => 'Name',
+    'total' => 'Total',
     'description' => 'Description',
     'parent' => 'Parent',
     'is_active' => 'Is active',

@@ -78,11 +78,14 @@ class Category extends Model
         'parent_id',
         'description',
         'is_active',
+        'slug',
+        'url',
     ];
 
     public array $translatable = [
         'name',
         'description',
+        'slug',
     ];
 
     public function posts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

@@ -12,6 +12,8 @@ use Module\Seo\Traits\SeoableTrait;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Dnsoft\Media\Traits\HasMediaTraitFileManager;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 
 /**
  * Module\Cms\Models\Post
@@ -70,7 +72,7 @@ use Dnsoft\Media\Traits\HasMediaTraitFileManager;
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Post extends Model
+class Post extends Model implements Feedable
 {
     use AttributeAndTranslatableTrait;
     // use HasMediaTrait;
@@ -79,6 +81,7 @@ class Post extends Model
     use SearchableTrait;
     use TaggableTrait;
     use HasMediaTraitFileManager;
+    // use SlugAttributeTrait;
 
     protected static $logName = 'cms_post';
 
@@ -91,13 +94,16 @@ class Post extends Model
         'is_active',
         'categories',
         'thumbnail',
-        'tags'
+        'tags',
+        'slug',
+        'view_count',
     ];
 
     public $translatable = [
         'name',
         'description',
         'content',
+        'slug',
     ];
 
     protected $searchable = [
@@ -114,6 +120,24 @@ class Post extends Model
         ],
     ];
 
+    public function toFeedItem(): FeedItem
+    {
+        return FeedItem::create([
+            'id' => $this->id,
+            'title' => $this->name,
+            'summary' => $this->description,
+            'content' => $this->content,
+            'updated' => $this->updated_at,
+            'link' => $this->url,
+            'authorName' => $this->author->name
+        ]);
+    }
+
+    public static function getFeedItems()
+    {
+        return Post::all();
+    }
+
     public function setThumbnailAttribute($value)
     {
         $this->mediaAttributes['thumbnail'] = $value;
@@ -121,7 +145,7 @@ class Post extends Model
 
     public function getThumbnailAttribute()
     {
-        return $this->getGallery('post', 'thumbnail', null);
+        return $this->getFirstMedia('post', 'thumbnail', null);
     }
 
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -149,5 +173,23 @@ class Post extends Model
     public function getController(): string
     {
         return PostController::class;
+    }
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function getNextAttribute(){
+        return static::where('id', '>', $this->id)->orderBy('id', 'asc')->first();
+    }
+ 
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public  function getPreviousAttribute(){
+        return static::where('id', '<', $this->id)->orderBy('id', 'desc')->first();
     }
 }

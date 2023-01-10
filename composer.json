@@ -1,5 +1,5 @@
 {
-    "name": "dnsoft/cms",
+    "name": "dnsoft/module-cms",
     "description": "This is module cms",
     "type": "library",
     "authors": [
@@ -9,15 +9,18 @@
         }
     ],
     "minimum-stability": "dev",
+    "require": {
+        "dnsoft/core": "dev-master"
+    },
     "autoload": {
         "psr-4": {
-            "Module\\Cms\\": "src/"
+            "Dnsoft\\Cms\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Module\\Cms\\CmsServiceProvider"
+                "Dnsoft\\Cms\\CmsServiceProvider"
             ]
         }
     }

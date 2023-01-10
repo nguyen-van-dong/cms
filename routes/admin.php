@@ -28,6 +28,10 @@ Route::prefix('cms')->group(function () {
             ->name('cms.admin.category.edit')
             ->middleware('admin.can:cms.admin.category.edit');
 
+        Route::get('{id}/show', [CategoryController::class, 'show'])
+        ->name('cms.admin.category.show')
+        ->middleware('admin.can:cms.admin.category.show');
+
         Route::put('{id}/update', [CategoryController::class, 'update'])
             ->name('cms.admin.category.update')
             ->middleware('admin.can:cms.admin.category.edit');
