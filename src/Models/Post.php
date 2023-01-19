@@ -187,7 +187,7 @@ class Post extends Model implements Feedable
      * @return response()
      */
     public function getNextAttribute(){
-        return static::where('id', '>', $this->id)->orderBy('id', 'asc')->first();
+        return static::where('id', '>', $this->id)->where('is_active', true)->orderBy('id', 'asc')->first();
     }
  
     /**
@@ -196,7 +196,7 @@ class Post extends Model implements Feedable
      * @return response()
      */
     public function getPreviousAttribute(){
-        return static::where('id', '<', $this->id)->orderBy('id', 'desc')->first();
+        return static::where('id', '<', $this->id)->where('is_active', true)->orderBy('id', 'desc')->first();
     }
 
     public function comments()
