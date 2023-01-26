@@ -2,11 +2,11 @@
     <h5><strong>{{ __('blog.share') }}!</strong></h5>
 
     <!-- Email -->
-    <div class="p-1 share-button-container">
+    <!-- <div class="p-1 share-button-container">
         <a href="mailto:?Subject=Sharing this blog post from DnSoft!&Body=I am sharing this blog post from DnSoft!{{ $item->url }}">
             <img src="{{ asset('assets/web/images/blog/email.png')}}" alt="Share website design email to Email" />
         </a>
-    </div>
+    </div> -->
 
     <!-- Facebook -->
     <div class="p-1 share-button-container">
@@ -23,11 +23,11 @@
     </div>
 
     <!-- Print -->
-    <div class="p-1 share-button-container">
+    <!-- <div class="p-1 share-button-container">
         <a href="javascript:;" onclick="window.print()">
             <img src="{{ asset('assets/web/images/blog/print.png')}}" alt="Share website design email to Print" />
         </a>
-    </div>
+    </div> -->
 
     <!-- Reddit -->
     <div class="p-1 share-button-container">

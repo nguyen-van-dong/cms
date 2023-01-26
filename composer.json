@@ -10,7 +10,6 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "dnsoft/core": "dev-master",
         "spatie/laravel-feed": "^4.2"
     },
     "autoload": {
