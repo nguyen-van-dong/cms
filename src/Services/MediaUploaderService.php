@@ -1,6 +1,6 @@
 <?php
 
-namespace Dnsoft\Media\Services;
+namespace Module\Media\Services;
 
 class MediaUploaderService
 {

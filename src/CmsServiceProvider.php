@@ -2,8 +2,8 @@
 
 namespace Module\Cms;
 
-use Dnsoft\Acl\Facades\Permission;
-use Dnsoft\Core\Events\CoreAdminMenuRegistered;
+use DnSoft\Acl\Facades\Permission;
+use DnSoft\Core\Events\CoreAdminMenuRegistered;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Event;
 use Module\Cms\Events\CmsAdminMenuRegistered;
@@ -16,7 +16,7 @@ use Module\Cms\Repositories\PageRepository;
 use Module\Cms\Repositories\PageRepositoryInterface;
 use Module\Cms\Repositories\PostRepository;
 use Module\Cms\Repositories\PostRepositoryInterface;
-use Dnsoft\Core\Support\BaseModuleServiceProvider;
+use DnSoft\Core\Support\BaseModuleServiceProvider;
 use Module\Cms\Events\ViewPostEvent;
 use Module\Cms\Listeners\ViewPostListener;
 use Module\Cms\Services\PageService;

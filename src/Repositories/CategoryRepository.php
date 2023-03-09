@@ -2,8 +2,8 @@
 
 namespace Module\Cms\Repositories;
 
-use Dnsoft\Core\Repositories\BaseRepository;
-use Dnsoft\Core\Repositories\NestedRepositoryTrait;
+use DnSoft\Core\Repositories\BaseRepository;
+use DnSoft\Core\Repositories\NestedRepositoryTrait;
 
 class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
 {

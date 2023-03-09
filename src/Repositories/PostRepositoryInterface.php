@@ -2,7 +2,7 @@
 
 namespace Module\Cms\Repositories;
 
-use Dnsoft\Core\Repositories\BaseRepositoryInterface;
+use DnSoft\Core\Repositories\BaseRepositoryInterface;
 
 interface PostRepositoryInterface extends BaseRepositoryInterface
 {

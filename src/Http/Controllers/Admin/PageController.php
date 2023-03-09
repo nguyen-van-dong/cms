@@ -2,16 +2,13 @@
 
 namespace Module\Cms\Http\Controllers\Admin;
 
-use Dnsoft\Core\Facades\MenuAdmin;
-use Dnsoft\Media\Models\Media;
+use DnSoft\Core\Facades\MenuAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Module\Cms\Http\Requests\PageRequest;
-use Module\Cms\Models\Post;
 use Module\Cms\Repositories\PageRepositoryInterface;
-use Module\Cms\Repositories\PostRepositoryInterface;
 
 class PageController extends Controller
 {

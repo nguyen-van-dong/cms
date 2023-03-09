@@ -2,10 +2,10 @@
 
 namespace Module\Cms\Models;
 
-use Dnsoft\Core\Traits\AttributeAndTranslatableTrait;
+use DnSoft\Core\Traits\AttributeAndTranslatableTrait;
 
-use Dnsoft\Core\Traits\TreeCacheableTrait;
-use Dnsoft\Media\Traits\HasMediaTrait;
+use DnSoft\Core\Traits\TreeCacheableTrait;
+use DnSoft\Media\Traits\HasMediaTrait;
 use Illuminate\Database\Eloquent\Model;
 use Module\Cms\Http\Controllers\Web\CategoryController;
 use Module\Seo\Traits\SeoableTrait;

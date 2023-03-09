@@ -2,7 +2,7 @@
 
 namespace Module\Cms\Repositories;
 
-use Dnsoft\Core\Repositories\BaseRepository;
+use DnSoft\Core\Repositories\BaseRepository;
 
 class PageRepository extends BaseRepository implements PageRepositoryInterface
 {

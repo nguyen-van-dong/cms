@@ -2,16 +2,14 @@
 
 namespace Module\Cms\Models;
 
-use Dnsoft\Core\Traits\AttributeAndTranslatableTrait;
-use Dnsoft\Core\Traits\SlugAttributeTrait;
-use Dnsoft\Core\Traits\TaggableTrait;
-use Dnsoft\Media\Traits\HasMediaTrait;
+use DnSoft\Core\Traits\AttributeAndTranslatableTrait;
+use DnSoft\Core\Traits\TaggableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Module\Cms\Http\Controllers\Web\PostController;
 use Module\Seo\Traits\SeoableTrait;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Dnsoft\Media\Traits\HasMediaTraitFileManager;
+use DnSoft\Media\Traits\HasMediaTraitFileManager;
 use Module\Comment\Models\Comment;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;

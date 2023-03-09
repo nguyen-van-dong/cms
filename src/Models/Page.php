@@ -2,7 +2,7 @@
 
 namespace Module\Cms\Models;
 
-use Dnsoft\Core\Traits\AttributeAndTranslatableTrait;
+use DnSoft\Core\Traits\AttributeAndTranslatableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Module\Cms\Http\Controllers\Web\PageController;
 use Module\Seo\Traits\SeoableTrait;

@@ -2,11 +2,8 @@
 
 namespace Module\Cms\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Session\Store;
 use Module\Cms\Events\ViewPostEvent;
-use Module\Cms\Models\Post;
 
 class ViewPostListener
 {

@@ -2,13 +2,11 @@
 
 namespace Module\Cms\Http\Controllers\Admin;
 
-use Dnsoft\Core\Facades\MenuAdmin;
-use Dnsoft\Media\Models\Mediable;
+use DnSoft\Core\Facades\MenuAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use Module\Cms\Http\Requests\CategoryRequest;
-use Module\Cms\Models\Category;
 use Module\Cms\Repositories\CategoryRepository;
 use Module\Cms\Repositories\CategoryRepositoryInterface;
 
@@ -26,8 +24,8 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $items = $this->categoryRepository->paginateTree($request->input('max', 20));
-
-        return view('cms::admin.category.index', compact('items'));
+        $version = get_version_actived();
+        return view("cms::$version.'admin.category.index", compact('items'));
     }
 
     public function create(Request $request)
@@ -35,8 +33,8 @@ class CategoryController extends Controller
         MenuAdmin::activeMenu('cms_category');
 
         $item = [];
-
-        return view('cms::admin.category.create', compact('item'));
+        $version = get_version_actived();
+        return view("cms::$version.admin.category.create", compact('item'));
     }
 
     public function store(CategoryRequest $request)
@@ -59,8 +57,8 @@ class CategoryController extends Controller
         MenuAdmin::activeMenu('cms_category');
 
         $item = $this->categoryRepository->find($id);
-
-        return view('cms::admin.category.edit', compact('item'));
+        $version = get_version_actived();
+        return view("cms::$version.admin.category.edit", compact('item'));
     }
 
     public function show($id)
@@ -87,7 +85,8 @@ class CategoryController extends Controller
             $items = $category->posts()->orderBy('id', 'DESC')->paginate(10);
         }
 
-        return view('cms::admin.post.index', compact('category', 'items'));
+        $version = get_version_actived();
+        return view("cms::$version.admin.post.index", compact('category', 'items'));
     }
 
     public function update($id, CategoryRequest $request)

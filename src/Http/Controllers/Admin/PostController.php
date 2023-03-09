@@ -2,8 +2,8 @@
 
 namespace Module\Cms\Http\Controllers\Admin;
 
-use Dnsoft\Core\Facades\MenuAdmin;
-use Dnsoft\Media\Models\Media;
+use DnSoft\Core\Facades\MenuAdmin;
+use DnSoft\Media\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -51,7 +51,8 @@ class PostController extends Controller
         } else {
             $items = $this->postRepository->paginate(10);
         }
-        return view('cms::admin.post.index', compact('items'));
+        $version = get_version_actived();
+        return view("cms::$version.admin.post.index", compact('items'));
     }
 
     /**
@@ -63,7 +64,8 @@ class PostController extends Controller
     {
         MenuAdmin::activeMenu('cms_post');
         $item = null;
-        return view('cms::admin.post.create', compact('item'));
+        $version = get_version_actived();
+        return view("cms::$version.admin.post.create", compact('item'));
     }
 
     /**
@@ -97,7 +99,8 @@ class PostController extends Controller
     {
         MenuAdmin::activeMenu('cms_post');
         $item = $this->postRepository->getById($id);
-        return view('cms::admin.post.edit', compact('item'));
+        $version = get_version_actived();
+        return view("cms::$version.admin.post.edit", compact('item'));
     }
 
     /**
@@ -163,7 +166,8 @@ class PostController extends Controller
         } else {
             $items = Comment::where(['table_id' => $id, 'table_type' => Post::class])->withDepth()->defaultOrder()->get();
         }
-        return view('cms::admin.post.comment', compact('items'));
+        $version = get_version_actived();
+        return view("cms::$version.admin.post.comment", compact('items'));
     }
 
     /**
