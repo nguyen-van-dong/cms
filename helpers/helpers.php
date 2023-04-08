@@ -19,7 +19,6 @@ if (!function_exists('get_cms_category_parent_options'))
                 'label' => trim(str_pad('', $item->depth * 3, '-')).' '.$item->name,
             ];
         }
-
         return $options;
     }
 }

@@ -65,8 +65,8 @@ class Category extends Model
 {
     use TreeCacheableTrait;
     use AttributeAndTranslatableTrait;
-    use HasMediaTrait;
-    use LogsActivity;
+    // use HasMediaTrait;
+    // use LogsActivity;
     use SeoableTrait;
 
     protected static string $logName = 'cms_category';
@@ -79,6 +79,9 @@ class Category extends Model
         'description',
         'is_active',
         'slug',
+        'is_featured',
+        'sort',
+        'icon',
         'url',
     ];
 

@@ -19,6 +19,9 @@ class CreateCmsCategoriesTable extends Migration
             $table->longText('description')->nullable();
             $table->text('slug')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_featured')->default(false);
+            $table->integer('sort')->nullable();
+            $table->string('icon')->nullable();
             $table->nestedSet();
             $table->timestamps();
 

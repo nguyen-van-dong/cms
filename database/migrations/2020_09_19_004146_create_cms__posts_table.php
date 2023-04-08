@@ -25,6 +25,7 @@ class CreateCmsPostsTable extends Migration
             $table->smallInteger('sort_order')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->integer('view_count')->default(0);
+            $table->integer('time_read')->nullable();
             $table->nullableMorphs('author');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

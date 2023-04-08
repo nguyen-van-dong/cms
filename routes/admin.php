@@ -4,7 +4,6 @@ use Module\Cms\Http\Controllers\Admin\CategoryController;
 use Module\Cms\Http\Controllers\Admin\PostController;
 use Module\Cms\Http\Controllers\Admin\PageController;
 use Module\Cms\Http\Controllers\Admin\PostAttributeController;
-use Module\Cms\Http\Controllers\Admin\CategoryAttributeController;
 
 Route::prefix('cms')->group(function () {
 
@@ -39,32 +38,6 @@ Route::prefix('cms')->group(function () {
         Route::delete('{id}/destroy', [CategoryController::class, 'destroy'])
             ->name('cms.admin.category.destroy')
             ->middleware('admin.can:cms.admin.category.destroy');
-
-        Route::prefix('category-attribute')->group(function () {
-            Route::get('', [CategoryAttributeController::class, 'index'])
-                ->name('cms.admin.category-attribute.index')
-                ->middleware('admin.can:cms.admin.category-attribute.index');
-
-            Route::get('create', [CategoryAttributeController::class, 'create'])
-                ->name('cms.admin.category-attribute.create')
-                ->middleware('admin.can:cms.admin.category-attribute.create');
-
-            Route::post('/', [CategoryAttributeController::class, 'store'])
-                ->name('cms.admin.category-attribute.store')
-                ->middleware('admin.can:cms.admin.category-attribute.create');
-
-            Route::get('{id}/edit', [CategoryAttributeController::class, 'edit'])
-                ->name('cms.admin.category-attribute.edit')
-                ->middleware('admin.can:cms.admin.category-attribute.edit');
-
-            Route::put('{id}', [CategoryAttributeController::class, 'update'])
-                ->name('cms.admin.category-attribute.update')
-                ->middleware('admin.can:cms.admin.category-attribute.edit');
-
-            Route::delete('{id}', [CategoryAttributeController::class, 'destroy'])
-                ->name('cms.admin.category-attribute.destroy')
-                ->middleware('admin.can:cms.admin.category-attribute.destroy');
-        });
     });
 
     Route::prefix('post')->group(function () {

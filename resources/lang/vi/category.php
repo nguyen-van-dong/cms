@@ -6,6 +6,8 @@ return [
     'description' => 'Description',
     'parent' => 'Parent',
     'is_active' => 'Is active',
+    'is_default' => 'Is default',
+    'is_featured' => 'Is featured',
     'language' => 'Language',
     'created_at' => 'Created at',
     'tabs' => [

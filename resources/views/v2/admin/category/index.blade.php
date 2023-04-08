@@ -1,210 +1,101 @@
 @extends('core::v2.admin.master')
 
-@section('meta_title', __('cms::category.index.page_title'))
+@section('title', __('cms::category.index.page_title'))
 
-@section('content')
-
-<div class="">
-  <div class="page-title">
-    <div class="title_left">
-      <div class="page-title-box">
-        <div class="page-title-right">
-          <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><i class="fa fa-home mr-1"></i><a href="{{ route('admin.dashboard.index') }}">Home</a></li>
-            <li class="breadcrumb-item active">{{ __('Category') }}</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-
-    <div class="title_right">
-      <div class="col-md-5 col-sm-5 form-group pull-right top_search">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for...">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Go!</button>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row" style="display: block;">
-    <div class="clearfix"></div>
-    <div class="col-md-12 col-sm-12">
-      <div class="x_panel">
-        <div class="x_title">
-          <h2>Table design <small>Custom design</small></h2>
-          <div class="clearfix"></div>
-        </div>
-
-        <div class="x_content">
-
-          <div class="table-responsive">
-            <table class="table table-striped jambo_table bulk_action">
-              <thead>
-                <tr class="headings">
-                  <th>
-                    <input type="checkbox" id="check-all" class="flat">
-                  </th>
-                  <th class="column-title">Invoice </th>
-                  <th class="column-title">Invoice Date </th>
-                  <th class="column-title">Order </th>
-                  <th class="column-title">Bill to Name </th>
-                  <th class="column-title">Status </th>
-                  <th class="column-title">Amount </th>
-                  <th class="column-title no-link last"><span class="nobr">Action</span>
-                  </th>
-                  <th class="bulk-actions" colspan="7">
-                    <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr class="even pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000040</td>
-                  <td class=" ">May 23, 2014 11:47:56 PM </td>
-                  <td class=" ">121000210 <i class="success fa fa-long-arrow-up"></i></td>
-                  <td class=" ">John Blank L</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$7.45</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-                <tr class="odd pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000039</td>
-                  <td class=" ">May 23, 2014 11:30:12 PM</td>
-                  <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
-                  </td>
-                  <td class=" ">John Blank L</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$741.20</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-                <tr class="even pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000038</td>
-                  <td class=" ">May 24, 2014 10:55:33 PM</td>
-                  <td class=" ">121000203 <i class="success fa fa-long-arrow-up"></i>
-                  </td>
-                  <td class=" ">Mike Smith</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$432.26</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-                <tr class="odd pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000037</td>
-                  <td class=" ">May 24, 2014 10:52:44 PM</td>
-                  <td class=" ">121000204</td>
-                  <td class=" ">Mike Smith</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$333.21</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-                <tr class="even pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000040</td>
-                  <td class=" ">May 24, 2014 11:47:56 PM </td>
-                  <td class=" ">121000210</td>
-                  <td class=" ">John Blank L</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$7.45</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-                <tr class="odd pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000039</td>
-                  <td class=" ">May 26, 2014 11:30:12 PM</td>
-                  <td class=" ">121000208 <i class="error fa fa-long-arrow-down"></i>
-                  </td>
-                  <td class=" ">John Blank L</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$741.20</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-                <tr class="even pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000038</td>
-                  <td class=" ">May 26, 2014 10:55:33 PM</td>
-                  <td class=" ">121000203</td>
-                  <td class=" ">Mike Smith</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$432.26</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-                <tr class="odd pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000037</td>
-                  <td class=" ">May 26, 2014 10:52:44 PM</td>
-                  <td class=" ">121000204</td>
-                  <td class=" ">Mike Smith</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$333.21</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-
-                <tr class="even pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000040</td>
-                  <td class=" ">May 27, 2014 11:47:56 PM </td>
-                  <td class=" ">121000210</td>
-                  <td class=" ">John Blank L</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$7.45</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-                <tr class="odd pointer">
-                  <td class="a-center ">
-                    <input type="checkbox" class="flat" name="table_records">
-                  </td>
-                  <td class=" ">121000039</td>
-                  <td class=" ">May 28, 2014 11:30:12 PM</td>
-                  <td class=" ">121000208</td>
-                  <td class=" ">John Blank L</td>
-                  <td class=" ">Paid</td>
-                  <td class="a-right a-right ">$741.20</td>
-                  <td class=" last"><a href="#">View</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-
-        </div>
-      </div>
+@section('breadcrumbs')
+<div class="title_left">
+  <div class="page-title-box">
+    <div class="page-title-right">
+      <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item"><i class="fa fa-home mr-1"></i><a href="{{ route('admin.dashboard.index') }}">Home</a></li>
+        <li class="breadcrumb-item active">{{ __('Category') }}</li>
+      </ol>
     </div>
   </div>
 </div>
+@endsection
 
+@section('search')
+<div class="title_right">
+  <div class="col-md-5 col-sm-5 form-group pull-right top_search">
+    <div class="input-group">
+
+      <!-- @translatable -->
+    </div>
+  </div>
+</div>
+@endsection
+
+@section('content')
+<form role="form" action="{{ route('cms.admin.category.store') }}" method="POST" id="category-form">
+  @csrf
+  <div class="row mt-5" style="display: block;">
+    <div class="clearfix"></div>
+    <div class="col-md-4 col-sm-4">
+      <!-- <button type="submit" class="btn btn-primary" style="font-size: 1.1em;"><i class="fa fa-save"></i> {{ __('Collapse') }}</button> -->
+      <a class="btn btn-primary" href="{{ route('cms.admin.category.index') }}" style="font-size: 1.1em;"><i class="fa fa-arrow-circle-o-right"></i> {{ __('Create') }}</a>
+      <a class="btn btn-danger" href="#" data-toggle="modal" data-target=".modal-delete-record" id="btn-delete" style="font-size: 1.1em; display: none"><i class="fa fa-trash"></i> {{ __('Delete') }}</a>
+      <a id="element-trigger-1"></a>
+      @if (count($treeCategory) > 0)
+      <div
+        id="tree-view-component-1"
+        data-items='@json($treeCategory)'
+        data-displayall="true"
+        data-checkable="false"
+        data-showline="true"
+        style="border: 1px solid #ababab; border-radius: 5px; margin-top: 10px"></div>
+      @endif
+    </div>
+    @include('cms::v2.admin.category.form')
+  </div>
+</form>
+
+<div class="modal fade modal-delete-record" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel2" style="color: red">Confirm delete!</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body text-left">
+        <h4>Are you sure delete this record?</h4>
+      </div>
+      <form method="POST" action="" id="form-delete">
+        @method('DELETE')
+        @csrf
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger" id="btn-confirm-delete">Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 @stop
+
+@push('script')
+<script>
+  $(document).ready(function() {
+    $('#element-trigger-1').click(function(e) {
+      e.preventDefault();
+      $('#form-content').css('background-color', '#bebebe');
+      const id = document.getElementById('element-trigger-1').dataset.id;
+      $.get(`/admin/cms/category/${id}/edit`, (data, status) => {
+        $('#form-content').replaceWith(data.item);
+        $('#category-form').attr('action', data.route);
+        if ($('input[name="_method"]').length === 0) {
+          $('#category-form').append(`<input type="hidden" name="_method" value="PUT">`);
+        }
+        $('#btn-delete').attr('href', data.delete_url);
+        $('#btn-delete').css('display', 'inline');
+      });
+    });
+
+    $('#btn-delete').click(function() {
+      const url = $(this).attr('href');
+      $('#form-delete').attr('action', url);
+    });
+  })
+</script>
+@endpush

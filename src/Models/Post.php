@@ -3,13 +3,10 @@
 namespace Module\Cms\Models;
 
 use DnSoft\Core\Traits\AttributeAndTranslatableTrait;
-use DnSoft\Core\Traits\TaggableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Module\Cms\Http\Controllers\Web\PostController;
 use Module\Seo\Traits\SeoableTrait;
-use Nicolaslopezj\Searchable\SearchableTrait;
-use Spatie\Activitylog\Traits\LogsActivity;
-use DnSoft\Media\Traits\HasMediaTraitFileManager;
+use DnSoft\Media\Traits\HasMediaTraitV2;
 use Module\Comment\Models\Comment;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
@@ -73,132 +70,123 @@ use Spatie\Feed\FeedItem;
  */
 class Post extends Model implements Feedable
 {
-    use AttributeAndTranslatableTrait;
-    // use HasMediaTrait;
-    // use LogsActivity;
-    use SeoableTrait;
-    use SearchableTrait;
-    use TaggableTrait;
-    use HasMediaTraitFileManager;
-    // use SlugAttributeTrait;
+  use AttributeAndTranslatableTrait;
+  use HasMediaTraitV2;
+  use SeoableTrait;
+  // use TaggableTrait;
+  // use HasMediaTraitFileManager;
+  // use SlugAttributeTrait;
 
-    protected static $logName = 'cms_post';
+  protected static $logName = 'cms_post';
 
-    protected $table = 'cms__posts';
+  protected $table = 'cms__posts';
 
-    protected $fillable = [
-        'name',
-        'description',
-        'content',
-        'is_active',
-        'categories',
-        'thumbnail',
-        'tags',
-        'slug',
-        'view_count',
-        'published_at',
-    ];
+  protected $fillable = [
+    'name',
+    'description',
+    'content',
+    'is_active',
+    'categories',
+    'thumbnail',
+    'tags',
+    'slug',
+    'view_count',
+    'published_at',
+  ];
 
-    protected $casts = [
-        'published_at' => 'datetime'
-    ];
+  protected $casts = [
+    'published_at' => 'datetime'
+  ];
 
-    public $translatable = [
-        'name',
-        'description',
-        'content',
-        'slug',
-    ];
+  public $translatable = [
+    'name',
+    'description',
+    'content',
+    'slug',
+  ];
 
-    protected $searchable = [
-        /**
-         * Columns and their priority in search results.
-         * Columns with higher values are more important.
-         * Columns with equal values have equal importance.
-         *
-         * @var array
-         */
-        'columns' => [
-            'cms__posts.name' => 10,
-            'cms__posts.content' => 10,
-        ],
-    ];
+  public function toFeedItem(): FeedItem
+  {
+    return FeedItem::create([
+      'id' => $this->id,
+      'title' => $this->name,
+      'summary' => $this->description,
+      'content' => $this->content,
+      'updated' => $this->updated_at,
+      'link' => $this->url,
+      'authorName' => $this->author->name
+    ]);
+  }
 
-    public function toFeedItem(): FeedItem
-    {
-        return FeedItem::create([
-            'id' => $this->id,
-            'title' => $this->name,
-            'summary' => $this->description,
-            'content' => $this->content,
-            'updated' => $this->updated_at,
-            'link' => $this->url,
-            'authorName' => $this->author->name
-        ]);
-    }
+  public static function getFeedItems()
+  {
+    return Post::all();
+  }
 
-    public static function getFeedItems()
-    {
-        return Post::all();
-    }
+  public function setThumbnailAttribute($value)
+  {
+    $this->mediaAttributes['thumbnail'] = $value;
+  }
 
-    public function setThumbnailAttribute($value)
-    {
-        $this->mediaAttributes['thumbnail'] = $value;
-    }
+  public function getThumbnailAttribute()
+  {
+    return $this->getFirstMedia();
+  }
 
-    public function getThumbnailAttribute()
-    {
-        return $this->getFirstMedia('post', 'thumbnail', null);
-    }
+  public function getImageName()
+  {
+    return 'thumbnail';
+  }
 
-    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Category::class, 'cms__category_post');
-    }
+  public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+  {
+    return $this->belongsToMany(Category::class, 'cms__category_post');
+  }
 
-    public function setCategoriesAttribute($value)
-    {
-        static::saved(function ($model) use ($value) {
-            !$value || $this->categories()->sync($value);
-        });
-    }
+  public function setCategoriesAttribute($value)
+  {
+    static::saved(function ($model) use ($value) {
+      !$value || $this->categories()->sync($value);
+    });
+  }
 
-    public function author(): \Illuminate\Database\Eloquent\Relations\MorphTo
-    {
-        return $this->morphTo();
-    }
+  public function author(): \Illuminate\Database\Eloquent\Relations\MorphTo
+  {
+    return $this->morphTo();
+  }
 
-    public function getUrl(): string
-    {
-        return route('cms.web.post.detail', $this->id);
-    }
+  public function getUrl(): string
+  {
+    return route('cms.web.post.detail', $this->id);
+  }
 
-    public function getController(): string
-    {
-        return PostController::class;
-    }
+  public function getController(): string
+  {
+    return PostController::class;
+  }
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function getNextAttribute(){
-        return static::where('id', '>', $this->id)->where('is_active', true)->orderBy('id', 'asc')->first();
-    }
- 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function getPreviousAttribute(){
-        return static::where('id', '<', $this->id)->where('is_active', true)->orderBy('id', 'desc')->first();
-    }
+  /**
+   * Write code on Method
+   *
+   * @return response()
+   */
+  public function getNextAttribute()
+  {
+    return static::where('id', '>', $this->id)->where('is_active', true)->orderBy('id', 'asc')->first();
+  }
 
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'table');
-    }
+  /**
+   * Write code on Method
+   *
+   * @return response()
+   */
+  public function getPreviousAttribute()
+  {
+    return static::where('id', '<', $this->id)->where('is_active', true)->orderBy('id', 'desc')->first();
+  }
+
+  public function comments()
+  {
+    return $this->morphMany(Comment::class, 'table');
+  }
 }

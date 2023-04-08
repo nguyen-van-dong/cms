@@ -40,10 +40,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Page extends Model
 {
-    use LogsActivity;
+    // use LogsActivity;
     use SeoableTrait;
     use AttributeAndTranslatableTrait;
-    use SearchableTrait;
+    // use SearchableTrait;
 
     protected $table = 'cms__pages';
 
