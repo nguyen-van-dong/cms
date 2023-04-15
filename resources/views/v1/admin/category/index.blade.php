@@ -2,7 +2,7 @@
 
 @section('meta_title', __('cms::category.index.page_title'))
 
-@section('content-header')
+@section('breadcrumbs')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="col-12 text-sm-center form-inline">
                             <div class="form-group mr-2">
-                                <a id="demo-btn-addrow" class="btn btn-primary" href="{{ route('cms.admin.category.create') }}"><i class="mdi mdi-plus-circle mr-2"></i> Add New</a>
+                                <a id="demo-btn-addrow" class="btn btn-primary" href="{{ route('cms.admin.category.create') }}"><i class="mdi mdi-plus-circle mr-2"></i> Add New Category</a>
                             </div>
                             <div class="form-group">
                                 <input id="demo-input-search2" type="text" placeholder="Search" class="form-control" autocomplete="off">
@@ -98,7 +98,7 @@
                                     @endadmincan
 
                                     @admincan('cms.admin.category.destroy')
-                                    <button-delete url-delete="{{ route('cms.admin.category.destroy', $item->id) }}"></button-delete>
+                                    <x-button-delete-v1 url="{{ route('cms.admin.category.destroy', $item->id) }}"/>
                                     @endadmincan
                                 </td>
                             </tr>

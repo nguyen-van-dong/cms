@@ -23,7 +23,8 @@ return [
     ],
     'tabs' => [
         'info' => 'Information',
-        'seo' => 'SEO'
+        'seo' => 'SEO',
+        'attribute' => 'Attribute',
     ],
     'notification' => [
         'created' => 'Created post successfully.',

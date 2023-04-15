@@ -89,27 +89,30 @@ class CmsServiceProvider extends BaseModuleServiceProvider
   public function registerAdminMenu()
   {
     Event::listen(CoreAdminMenuRegistered::class, function ($menu) {
-      $menu->add('Content', [])->data('order', 2000)->data('icon', 'fa fa-bookmark');
+      $menuContent = $menu->add('Content', [])->data('order', 2000)->data('icon', 'fa fa-bookmark');
+      if (!get_setting_value_by_name('disable_mega_menu')) {
+        $menuContent->prepend('<i class="far fa-file-alt"></i>');
+      }
 
       $menu->add('Category', [
         'route' => 'cms.admin.category.index',
         'parent' => $menu->content->id,
-      ])->nickname('cms_category')->data('order', 2);
+      ])->nickname('cms_category')->data('order', 2)->prepend('<i class="fas fa-check-double"></i>');
 
       $menu->add('Post', [
         'route' => 'cms.admin.post.index',
         'parent' => $menu->content->id
-      ])->nickname('cms_post')->data('order', 3);
+      ])->nickname('cms_post')->data('order', 3)->prepend('<i class="far fa-file-word"></i>');
 
       $menu->add('Page', [
         'route' => 'cms.admin.page.index',
         'parent' => $menu->content->id
-      ])->nickname('cms_page')->data('order', 4);
+      ])->nickname('cms_page')->data('order', 4)->prepend('<i class="fab fa-playstation"></i>');
 
       $menu->add('Post Attribute', [
         'route' => 'cms.admin.post-attribute.index',
         'parent' => $menu->content->id
-      ])->nickname('cms_post_attribute')->data('order', 3);
+      ])->nickname('cms_post_attribute')->data('order', 3)->prepend('<i class="fab fa-500px"></i>');
 
       event(CmsAdminMenuRegistered::class, $menu);
     });

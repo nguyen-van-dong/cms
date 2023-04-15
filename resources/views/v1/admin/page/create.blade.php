@@ -2,7 +2,7 @@
 
 @section('meta_title', __('cms::page.create.page_title'))
 
-@section('content-header')
+@section('breadcrumbs')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @include('cms::admin.page._fields', ['item' => null])
+                        @include('cms::v1.admin.page._fields', ['item' => null])
                     </div>
                     <div class="card-footer text-right">
                         <div class="btn-group">

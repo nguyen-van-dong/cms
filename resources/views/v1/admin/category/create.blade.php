@@ -2,7 +2,7 @@
 
 @section('meta_title', __('cms::category.create.page_title'))
 
-@section('content-header')
+@section('breadcrumbs')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
@@ -31,7 +31,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h4 class="fs-17 font-weight-600 mb-2">
-                                    {{ __('cms::post.create.page_title') }}
+                                    {{ __('cms::category.create.page_title') }}
                                 </h4>
                                 @translatableAlert
                             </div>
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @include('cms::admin.category._fields', ['item' => $item])
+                        @include('cms::v1.admin.category._fields', ['item' => $item])
                     </div>
 
                     <div class="card-footer text-right">

@@ -140,7 +140,7 @@ class CategoryController extends Controller
   {
     $this->categoryRepository->delete($id);
 
-    if ($request->wantsJson()) {
+    if ($request->ajax()) {
       Session::flash('success', __('cms::category.notification.deleted'));
       return response()->json([
         'success' => true,

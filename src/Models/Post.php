@@ -3,6 +3,9 @@
 namespace Module\Cms\Models;
 
 use DnSoft\Core\Traits\AttributeAndTranslatableTrait;
+use DnSoft\Core\Traits\SlugAttributeTrait;
+use DnSoft\Core\Traits\TaggableTrait;
+// use DnSoft\Media\Traits\HasMediaTraitFileManager;
 use Illuminate\Database\Eloquent\Model;
 use Module\Cms\Http\Controllers\Web\PostController;
 use Module\Seo\Traits\SeoableTrait;
@@ -73,9 +76,12 @@ class Post extends Model implements Feedable
   use AttributeAndTranslatableTrait;
   use HasMediaTraitV2;
   use SeoableTrait;
+  // use HasMediaTraitFileManager;
   // use TaggableTrait;
   // use HasMediaTraitFileManager;
   // use SlugAttributeTrait;
+
+  use TaggableTrait;
 
   protected static $logName = 'cms_post';
 
