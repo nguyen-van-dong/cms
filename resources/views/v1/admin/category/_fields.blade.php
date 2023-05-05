@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-12">
                 @select(['name' => 'parent_id', 'label' => __('cms::category.parent'), 'options' => get_cms_category_parent_options()])
-                @input(['name' => 'name', 'label' => __('cms::category.name')])
+                @input(['name' => 'name', 'label' => __('cms::category.name'), 'require' => true])
                 {{--                @tags--}}
                 @textarea(['name' => 'description', 'label' => __('cms::category.description')])
                 @input(['name' => 'icon', 'label' => __('Icon'), ])

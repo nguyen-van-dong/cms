@@ -12,26 +12,27 @@ use Module\Seo\Http\Controllers\Web\SeoController;
 
 class PostController extends SeoController
 {
-    /**
-     * @var PostRepositoryInterface
-     */
-    private PostRepositoryInterface $postRepository;
+  /**
+   * @var PostRepositoryInterface
+   */
+  private PostRepositoryInterface $postRepository;
 
-    public function __construct(PostRepositoryInterface $postRepository)
-    {
-        $this->postRepository = $postRepository;
-    }
+  public function __construct(PostRepositoryInterface $postRepository)
+  {
+    $this->postRepository = $postRepository;
+  }
 
-    /**
-     * @param $id
-     * @return Application|Factory|View
-     */
-    public function detail($id)
-    {
-        $item = $this->postRepository->getById($id);
-        event(new ViewPostEvent($item));
-        // TODO: need to improve the posts related
-        $postsRelated = Post::whereNotIn('id', [$item->id])->where('is_active', 1)->latest()->limit(3)->with('author')->get();
-        return view('cms::web.page.post-detail', compact('item', 'postsRelated'));
-    }
+  /**
+   * @param $id
+   * @return Application|Factory|View
+   */
+  public function detail($id)
+  {
+    $item = $this->postRepository->getById($id);
+    event(new ViewPostEvent($item));
+    // TODO: need to improve the posts related
+    $postsRelated = Post::whereNotIn('id', [$item->id])->where('is_active', 1)->latest()->limit(3)->with('author')->get();
+    $postDetail = config('cms.post_detail_v1');
+    return view($postDetail, compact('item', 'postsRelated'));
+  }
 }

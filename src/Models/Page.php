@@ -3,6 +3,7 @@
 namespace Module\Cms\Models;
 
 use DnSoft\Core\Traits\AttributeAndTranslatableTrait;
+use DnSoft\Core\Traits\TreeCacheableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Module\Cms\Http\Controllers\Web\PageController;
 use Module\Seo\Traits\SeoableTrait;
@@ -40,56 +41,62 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Page extends Model
 {
-    // use LogsActivity;
-    use SeoableTrait;
-    use AttributeAndTranslatableTrait;
-    // use SearchableTrait;
+  use TreeCacheableTrait;
+  use SeoableTrait;
+  use AttributeAndTranslatableTrait;
+  // use SearchableTrait;
 
-    protected $table = 'cms__pages';
+  protected $table = 'cms__pages';
 
-    protected static $logName = 'cms_page';
+  protected static $logName = 'cms_page';
 
-    protected $fillable = [
-        'name',
-        'key',
-        'description',
-        'content',
-        'is_active',
-        'url',
-    ];
+  protected $fillable = [
+    'name',
+    'key',
+    'description',
+    'content',
+    'is_active',
+    'url',
+    'parent_id',
+  ];
 
-    public $translatable = [
-        'name',
-        'description',
-        'content',
-    ];
+  public $translatable = [
+    'name',
+    'description',
+    'content',
+  ];
 
+  /**
+   * Searchable rules.
+   *
+   * @var array
+   */
+  protected $searchable = [
     /**
-     * Searchable rules.
+     * Columns and their priority in search results.
+     * Columns with higher values are more important.
+     * Columns with equal values have equal importance.
      *
      * @var array
      */
-    protected $searchable = [
-        /**
-         * Columns and their priority in search results.
-         * Columns with higher values are more important.
-         * Columns with equal values have equal importance.
-         *
-         * @var array
-         */
-        'columns' => [
-            'cms__pages.name' => 10,
-            'cms__pages.description' => 10,
-        ],
-    ];
+    'columns' => [
+      'cms__pages.name' => 10,
+      'cms__pages.description' => 10,
+    ],
+  ];
 
-    public function getUrl(): string
-    {
-        return route('cms.web.page.detail', $this->id);
-    }
+  public function getUrl(): string
+  {
+    return route('cms.web.page.detail', $this->id);
+  }
 
-    public function getController(): string
-    {
-        return PageController::class;
-    }
+  public function getController(): string
+  {
+    return PageController::class;
+  }
+
+  public function getSubPages()
+  {
+    return $this->hasMany($this, 'parent_id');
+  }
 }

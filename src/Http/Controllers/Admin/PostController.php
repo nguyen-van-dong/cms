@@ -66,7 +66,6 @@ class PostController extends Controller
     MenuAdmin::activeMenu('cms_post');
     $item = null;
     $version = get_version_actived();
-    session()->put('session_id', Str::random(20));
     return view("cms::$version.admin.post.create", compact('item'));
   }
 
@@ -101,7 +100,6 @@ class PostController extends Controller
   {
     MenuAdmin::activeMenu('cms_post');
     $item = $this->postRepository->getById($id);
-    session()->put('session_id', Str::random(20));
     $version = get_version_actived();
     return view("cms::$version.admin.post.edit", compact('item'));
   }

@@ -21,7 +21,7 @@
   <div class="tab-pane fade show active" id="catalogProductInfo">
     <div class="row">
       <div class="col-12 col-md-12">
-        @input(['name' => 'name', 'label' => __('cms::post.name'), ])
+        @input(['name' => 'name', 'label' => __('cms::post.name'), 'require' => true])
         @sumoselect(['name' => 'categories', 'label' => __('cms::post.category'), 'multiple' => true, 'options' => get_cms_category_parent_options()])
         @ckeditor(['name' => 'description', 'label' => __('cms::post.description'), ])
         @ckeditor(['name' => 'content', 'label' => __('cms::post.content'), ])

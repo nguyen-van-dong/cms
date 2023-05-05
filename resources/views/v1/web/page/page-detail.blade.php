@@ -1,34 +1,26 @@
-@extends('web.layout.master')
 
-@section('seometa')
-    @seometa
+
+@extends('master2')
+
+@section('main-header')
+<header class="archive-page-header">
+  <div class="row">
+    <div class="large-12 text-center col">
+      <h1 class="page-title is-large uppercase">
+        <span>Dịch Vụ</span>
+      </h1>
+      <div class="taxonomy-description">
+        <p>Bản tin tuyển dụng mới nhất của hệ thống <a href="https://www.quoctien.vn"><b>Quốc Tiến – Hà Giang MôTô</b></a> tại Đà Nẵng và Quảng Nam…</p>
+      </div>
+    </div>
+  </div>
+</header>
 @endsection
 
 @section('content')
-
-<div class="page-title bg-img bg-6">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-content align-items-center">
-                    <h1 class="page-name">
-                        {{ __('blog.intro') }}
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li class="item-current"><span>{{ __('blog.index') }}</span></li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="blog-page-main-wrapper">
-    <div class="container">
-        <div class="row">
+<div class="large-9 col">
+<div class="row">
         {!! $item->content !!}
         </div>
-    </div>
 </div>
 @endsection

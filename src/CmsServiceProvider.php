@@ -63,6 +63,10 @@ class CmsServiceProvider extends BaseModuleServiceProvider
       __DIR__ . '/../public' => public_path('vendor/cms'),
     ], 'cms-module');
 
+    $this->publishes([
+      __DIR__.'/../config/cms.php' => config_path('cms.php'),
+    ], 'cms-config');
+
     Event::listen(ViewPostEvent::class, ViewPostListener::class);
 
     AliasLoader::getInstance()->alias('Page', \Module\Cms\Facades\Page::class);
