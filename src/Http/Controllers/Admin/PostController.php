@@ -77,7 +77,11 @@ class PostController extends Controller
    */
   public function store(PostRequest $request)
   {
-    $post = $this->postRepository->createWithAuthor($request->all());
+    $data = $request->all();
+    if ($request->is_active) {
+      $data['published_at'] = now();
+    }
+    $post = $this->postRepository->createWithAuthor($data);
 
     if ($request->input('continue')) {
       return redirect()
