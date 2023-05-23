@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Module\Cms\Http\Requests\CategoryRequest;
 use Module\Cms\Repositories\CategoryRepository;
 use Module\Cms\Repositories\CategoryRepositoryInterface;
+use Illuminate\Support\Facades\Artisan;
 
 class CategoryController extends Controller
 {
@@ -44,7 +45,7 @@ class CategoryController extends Controller
   public function store(CategoryRequest $request)
   {
     $item = $this->categoryRepository->create($request->all());
-
+    Artisan::call('cache:clear');
     if ($request->input('continue')) {
       return redirect()
         ->route('cms.admin.category.edit', $item->id)
@@ -104,8 +105,7 @@ class CategoryController extends Controller
   public function update($id, CategoryRequest $request)
   {
     $item = $this->categoryRepository->updateById($request->all(), $id);
-
-    //        $item->syncMedia($request->input('gallery', []), 'gallery');
+    Artisan::call('cache:clear');
 
     if ($request->input('continue')) {
       return redirect()

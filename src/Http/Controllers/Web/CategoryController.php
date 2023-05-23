@@ -6,6 +6,7 @@ use Module\Cms\Models\Category;
 use Module\Cms\Models\Post;
 use Module\Cms\Repositories\CategoryRepositoryInterface;
 use Module\Seo\Http\Controllers\Web\SeoController;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends SeoController
 {
@@ -30,9 +31,15 @@ class CategoryController extends SeoController
   {
     $totalPosts = Post::where('is_active', 1)->count();
     $item = $this->categoryRepository->getById($id);
-    $categories = Category::with(['posts' => function ($query) {
-      $query->where('is_active', 1);
-    }])->where('is_active', 1)->defaultOrder()->get();
+    $categoriesCached = Cache::get('categories');
+    if (!$categoriesCached) {
+      $categories = Category::with(['posts' => function($query) {
+          $query->where('is_active', 1);
+      }])->where('is_active', 1)->defaultOrder()->get();
+      Cache::put('categories', $categories);
+    } else {
+      $categories = $categoriesCached;
+    }
     $posts = $item->posts()->where('is_active', 1)->orderBy('id', 'DESC')->paginate(10);
     $categoryDetail = config('cms.category_detail_v1');
     return view($categoryDetail, compact('item', 'posts', 'totalPosts', 'categories'));
