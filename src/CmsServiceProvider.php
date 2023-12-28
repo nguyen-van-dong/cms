@@ -17,6 +17,7 @@ use Module\Cms\Repositories\PageRepositoryInterface;
 use Module\Cms\Repositories\PostRepository;
 use Module\Cms\Repositories\PostRepositoryInterface;
 use DnSoft\Core\Support\BaseModuleServiceProvider;
+use Illuminate\Support\Facades\Route;
 use Module\Cms\Events\ViewPostEvent;
 use Module\Cms\Listeners\ViewPostListener;
 use Module\Cms\Services\PageService;
@@ -70,6 +71,10 @@ class CmsServiceProvider extends BaseModuleServiceProvider
     Event::listen(ViewPostEvent::class, ViewPostListener::class);
 
     AliasLoader::getInstance()->alias('Page', \Module\Cms\Facades\Page::class);
+
+    Route::prefix('api')
+      ->middleware('api')
+      ->group(base_path('routes/api.php'));
   }
 
   public function registerPermissions()

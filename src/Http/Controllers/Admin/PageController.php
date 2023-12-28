@@ -29,9 +29,12 @@ class PageController extends Controller
    */
   public function index()
   {
-    $items = $this->pageRepository->paginateTree(20);
-    $version = get_version_actived();
-    return view("cms::$version.admin.page.index", compact('items'));
+    if (request('keyword')) {
+      $items = $this->pageRepository->paginateWithSearch('name', 10);
+    } else {
+      $items = $this->pageRepository->paginateTree(20);
+    }
+    return view("cms::admin.page.index", compact('items'));
   }
 
   /**
@@ -43,8 +46,8 @@ class PageController extends Controller
   {
     MenuAdmin::activeMenu('cms_page');
     $item = [];
-    $version = get_version_actived();
-    return view("cms::$version.admin.page.create", compact('item'));
+
+    return view("cms::admin.page.create", compact('item'));
   }
 
   /**
@@ -96,8 +99,8 @@ class PageController extends Controller
   {
     MenuAdmin::activeMenu('cms_page');
     $item = $this->pageRepository->getById($id);
-    $version = get_version_actived();
-    return view("cms::$version.admin.page.edit", compact('item'));
+
+    return view("cms::admin.page.edit", compact('item'));
   }
 
   /**

@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Session;
 use Module\Cms\Http\Requests\CategoryRequest;
 use Module\Cms\Repositories\CategoryRepository;
 use Module\Cms\Repositories\CategoryRepositoryInterface;
-use Illuminate\Support\Facades\Artisan;
 
 class CategoryController extends Controller
 {
@@ -26,11 +25,14 @@ class CategoryController extends Controller
 
   public function index(Request $request)
   {
-    $items = $this->categoryRepository->paginateTree($request->input('max', 20));
+    if (request('keyword')) {
+      $items = $this->categoryRepository->paginateWithSearch('name', 10);
+    } else {
+      $items = $this->categoryRepository->paginateTree($request->input('max', 10));
+    }
     $treeCategory = BuildTree::buildCategoryTree($items);
     $item = null;
-    $version = get_version_actived();
-    return view("cms::$version.admin.category.index", compact('items', 'item', 'treeCategory'));
+    return view("cms::admin.category.index", compact('items', 'item', 'treeCategory'));
   }
 
   public function create(Request $request)
@@ -38,14 +40,14 @@ class CategoryController extends Controller
     MenuAdmin::activeMenu('cms_category');
 
     $item = [];
-    $version = get_version_actived();
-    return view("cms::$version.admin.category.create", compact('item'));
+
+    return view("cms::admin.category.create", compact('item'));
   }
 
   public function store(CategoryRequest $request)
   {
     $item = $this->categoryRepository->create($request->all());
-    Artisan::call('cache:clear');
+
     if ($request->input('continue')) {
       return redirect()
         ->route('cms.admin.category.edit', $item->id)
@@ -61,9 +63,9 @@ class CategoryController extends Controller
   {
     MenuAdmin::activeMenu('cms_category');
     $item = $this->categoryRepository->find($id);
-    $version = get_version_actived();
+
     if (request()->ajax()) {
-      $html = view("cms::$version.admin.category.form", compact('item'))->render();
+      $html = view("cms::admin.category.form", compact('item'))->render();
       return response()->json([
         'message' => 'Success',
         'item' => $html,
@@ -71,7 +73,7 @@ class CategoryController extends Controller
         'delete_url' => route('cms.admin.category.destroy', $item->id)
       ]);
     }
-    return view("cms::$version.admin.category.edit", compact('item'));
+    return view("cms::admin.category.edit", compact('item'));
   }
 
   public function show($id)
@@ -98,14 +100,15 @@ class CategoryController extends Controller
       $items = $category->posts()->orderBy('id', 'DESC')->paginate(10);
     }
 
-    $version = get_version_actived();
-    return view("cms::$version.admin.post.index", compact('category', 'items'));
+
+    return view("cms::admin.post.index", compact('category', 'items'));
   }
 
   public function update($id, CategoryRequest $request)
   {
     $item = $this->categoryRepository->updateById($request->all(), $id);
-    Artisan::call('cache:clear');
+
+    //        $item->syncMedia($request->input('gallery', []), 'gallery');
 
     if ($request->input('continue')) {
       return redirect()

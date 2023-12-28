@@ -52,8 +52,8 @@ class PostController extends Controller
     } else {
       $items = $this->postRepository->paginate(10);
     }
-    $version = get_version_actived();
-    return view("cms::$version.admin.post.index", compact('items'));
+    
+    return view("cms::admin.post.index", compact('items'));
   }
 
   /**
@@ -65,8 +65,8 @@ class PostController extends Controller
   {
     MenuAdmin::activeMenu('cms_post');
     $item = null;
-    $version = get_version_actived();
-    return view("cms::$version.admin.post.create", compact('item'));
+    
+    return view("cms::admin.post.create", compact('item'));
   }
 
   /**
@@ -77,11 +77,7 @@ class PostController extends Controller
    */
   public function store(PostRequest $request)
   {
-    $data = $request->all();
-    if ($request->is_active) {
-      $data['published_at'] = now();
-    }
-    $post = $this->postRepository->createWithAuthor($data);
+    $post = $this->postRepository->createWithAuthor($request->all());
 
     if ($request->input('continue')) {
       return redirect()
@@ -104,8 +100,8 @@ class PostController extends Controller
   {
     MenuAdmin::activeMenu('cms_post');
     $item = $this->postRepository->getById($id);
-    $version = get_version_actived();
-    return view("cms::$version.admin.post.edit", compact('item'));
+    
+    return view("cms::admin.post.edit", compact('item'));
   }
 
   /**
@@ -171,8 +167,8 @@ class PostController extends Controller
     } else {
       $items = Comment::where(['table_id' => $id, 'table_type' => Post::class])->withDepth()->defaultOrder()->get();
     }
-    $version = get_version_actived();
-    return view("cms::$version.admin.post.comment", compact('items'));
+    
+    return view("cms::admin.post.comment", compact('items'));
   }
 
   /**

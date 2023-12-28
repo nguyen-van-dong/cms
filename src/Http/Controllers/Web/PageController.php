@@ -23,7 +23,6 @@ class PageController extends SeoController
   public function detail($id)
   {
     $item = $this->pageRepository->getById($id);
-    $version  = get_version_actived();
     $pageDetail = config('cms.page_detail_v1');
     return view($pageDetail, compact('item'));
   }
