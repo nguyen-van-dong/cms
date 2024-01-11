@@ -2,6 +2,7 @@
 
 namespace Module\Cms\Http\Resources;
 
+use DnSoft\Core\Utils\Core;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostDetailResource extends JsonResource
@@ -20,11 +21,10 @@ class PostDetailResource extends JsonResource
       'description' => $this->description,
       'content' => $this->content,
       'url' => $this->url,
-      'slug' => $this->seoUrl()->first()->request_path ?? '',
-      'thumbnail' => $this->thumbnail,
+      'slug' => Core::buildSlug($this->url),
+      'image' => $this->thumbnail ? $this->thumbnail->url : null,
       'author' => $this->author->display_name ? $this->author->display_name : $this->author->name,
-      'created_at' => $this->created_at,
-      'updated_at' => $this->updated_at,
+      'created_at' => $this->created_at->toFormattedDateString(),
       'comments_count' => $this->comments->count(),
       'count_like' => $this->like,
       'viewed' => $this->view_count,

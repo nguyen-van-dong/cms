@@ -61,6 +61,9 @@
           <div class="col-12 col-md-12">
             @translatable
           </div>
+          <hr/>
+          Thumbail
+          @media(['name' => 'thumbnail', 'conversion' => 'thumbnail', 'id' => 'image-component-1', 'show_button' => true, 'label' => 'Upload image'])
         </div>
       </div>
     </div>

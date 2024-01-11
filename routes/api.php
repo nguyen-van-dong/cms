@@ -21,5 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/categories', [BlogController::class, 'categories'])->name('cms.api.blog.categories');
 Route::get('/categories/{id}', [BlogController::class, 'detail'])->name('cms.api.blog.category-detail');
+Route::get('/categories/detail/{id}', [BlogController::class, 'getCategoryDetail'])->name('cms.api.blog.get-category-detail');
 Route::get('/posts', [BlogController::class, 'posts'])->name('cms.api.blog.posts');
 Route::get('/posts/{slug}', [BlogController::class, 'getPostBySlug'])->name('cms.api.blog.get-post');
+Route::get('/archives', [BlogController::class, 'getArchives'])->name('cms.api.blog.archives');

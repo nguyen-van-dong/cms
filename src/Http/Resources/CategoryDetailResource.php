@@ -2,6 +2,7 @@
 
 namespace Module\Cms\Http\Resources;
 
+use DnSoft\Core\Utils\Core;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryDetailResource extends JsonResource
@@ -16,15 +17,11 @@ class CategoryDetailResource extends JsonResource
   {
     return [
       'id' => $this->id,
-      'title' => $this->name,
-      'description' => strip_tags($this->description),
+      'name' => $this->name,
+      'description' => $this->description,
       'content' => $this->content,
-      'thumbnail' => $this->thumbnail,
-      'url' => $this->url,
-      'author' => $this->author->display_name ? $this->author->display_name : $this->author->name,
-      'category' => $this->categories()->first()->name ?? '',
-      'comments_count' => $this->comments->count(),
-      'count_like' => $this->like,
+      'thumbnail' => $this->thumbnail ? $this->thumbnail->url : null,
+      'url' => Core::buildSlug($this->url),
     ];
   }
 }

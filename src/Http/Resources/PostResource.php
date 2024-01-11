@@ -2,6 +2,7 @@
 
 namespace Module\Cms\Http\Resources;
 
+use DnSoft\Core\Utils\Core;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
@@ -20,11 +21,13 @@ class PostResource extends JsonResource
       'description' => $this->description,
       'url' => $this->url,
       'content' => $this->content,
-      'image' => $this->thumbnail,
+      'image' => $this->thumbnail->url,
       'author' => $this->author->display_name ? $this->author->display_name : $this->author->name,
       'comments_count' => $this->comments->count(),
+      'created_at' => $this->created_at->toFormattedDateString(),
       'count_like' => $this->like,
       'viewed' => $this->view_count,
+      'slug' => Core::buildSlug($this->url),
     ];
   }
 }

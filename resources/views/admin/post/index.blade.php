@@ -61,7 +61,6 @@
               <thead>
               <tr>
                 <th>#</th>
-                <th>ID</th>
                 <th>{{ __('cms::post.name') }}</th>
                 <th>{{ __('cms::post.category') }}</th>
                 <th>{{ __('Published at') }}</th>
@@ -78,11 +77,10 @@
                       <label class="custom-control-label" for="customCheck{{ $item->id }}">&nbsp;</label>
                     </div>
                   </td>
-                  <td>{{ $item->id }}</td>
                   <td><a href="{{ route('cms.admin.post.edit', $item->id) }}">{{ $item->name }}</a></td>
                   <td>
                     @foreach($item->categories as $category)
-                      <span style="background: aquamarine; padding: 5px; border-radius: 5px; color: white">
+                      <span style="background: aquamarine; padding: 5px; margin-right: 5px; border-radius: 5px; color: white">
                         <a href="{{ route('cms.admin.category.show', $category->id) }}">{{ $category->name }}</a>
                       </span>
                     @endforeach

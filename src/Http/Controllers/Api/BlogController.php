@@ -2,6 +2,8 @@
 
 namespace Module\Cms\Http\Controllers\Api;
 
+use DateTime;
+use DnSoft\Core\Utils\Core;
 use Module\Cms\Http\Resources\CategoryDetailResource;
 use Module\Cms\Http\Resources\CategoryResource;
 use Module\Cms\Http\Resources\PostDetailResource;
@@ -38,11 +40,34 @@ class BlogController extends Controller
    */
   public function detail($id)
   {
-    $category = Category::findOrFail($id);
+    if (is_numeric($id)) {
+      $category = Category::findOrFail($id);
+      return new CategoryDetailResource($category);
+    }
+    $slug = Core::convertSlug($id);
+    $url = Url::where(['urlable_type' => 'Module\Cms\Models\Category', 'request_path' => $slug])->first();
+    
+    $category = Category::findOrFail($url->urlable_id);
     $posts = $category->posts()->with(['author', 'categories', 'comments' => function ($query) {
       $query->where('is_published', 1);
     }])->where('is_active', 1)->orderBy('published_at', 'DESC')->paginate(10);
-    return CategoryDetailResource::collection($posts);
+    return [
+      'posts' => PostResource::collection($posts),
+      'category' => new CategoryResource($category)
+    ];
+  }
+
+  public function getCategoryDetail($id)
+  {
+    if (is_numeric($id)) {
+      $category = Category::findOrFail($id);
+      return new CategoryDetailResource($category);
+    }
+    $slug = Core::convertSlug($id);
+
+    $url = Url::where(['urlable_type' => 'Module\Cms\Models\Category', 'request_path' => $slug])->first();
+    $category = Category::findOrFail($url->urlable_id);
+    return new CategoryDetailResource($category);
   }
 
   /**
@@ -55,11 +80,19 @@ class BlogController extends Controller
       $posts = Post::with(['author', 'categories', 'comments' => function ($query) {
         $query->where('is_published', 1);
       }])->where('is_active', true)
-         ->where(function($query) use($keyword) {
-            $query->where('name', 'LIKE', '%'.$keyword.'%')
-            ->orWhere('content', 'LIKE', '%'.$keyword.'%');
-          })
-         ->orderBy('id', 'DESC')->paginate(8);
+        ->where(function ($query) use ($keyword) {
+          $query->where('name', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('content', 'LIKE', '%' . $keyword . '%');
+        })
+        ->orderBy('id', 'DESC')->paginate(8);
+    } elseif ($month = $request->search) {
+      $year = $request->year;
+      if (!$year) {
+        $year = date('Y');
+      }
+      $posts = Post::whereYear('created_at', '=', $year)
+        ->whereMonth('created_at', '=', date('n', strtotime($month)))
+        ->paginate(10);
     } else {
       $posts = Post::with(['author', 'categories', 'comments' => function ($query) {
         $query->where('is_published', 1);
@@ -77,8 +110,41 @@ class BlogController extends Controller
       $post = Post::findOrFail($slug);
       return new PostDetailResource($post);
     }
+    $slug = Core::convertSlug($slug);
     $url = Url::where(['urlable_type' => 'Module\Cms\Models\Post', 'request_path' => $slug])->first();
     $post = Post::findOrFail($url->urlable_id);
-    return new PostDetailResource($post);
+    $catIds = $post->categories->pluck('id');
+    $relatedPosts = null;
+    if ($catIds->count() > 0) {
+      $relatedPosts = Post::whereHas('categories', function ($query) use ($catIds) {
+        $query->whereIn('id', $catIds);
+      })->where('id', '!=', $post->id)->inRandomOrder()->limit(2)->get();
+    }
+    return [
+      'post' => new PostDetailResource($post),
+      'related_posts' => $relatedPosts ? PostDetailResource::collection($relatedPosts) : []
+    ];
+  }
+
+  public function getArchives(Request $request)
+  {
+    $year = $request->year;
+    if (!$year) {
+      $year = date('Y');
+    }
+    $posts = Post::whereYear('created_at', $year)->get();
+    $countsPerMonth = [];
+    $posts->each(function ($item) use (&$countsPerMonth) {
+      $createdAt = \Carbon\Carbon::parse($item['created_at']);
+      // Get the month and year from the created_at timestamp
+      $month = $createdAt->format('n'); // 'n' returns month without leading zeros (1 to 12)
+      $year = $createdAt->format('Y');
+
+      // Increment the count for that month
+      $dateObj = DateTime::createFromFormat('!m', $month);
+      $monthName = $dateObj->format('F');
+      $countsPerMonth[$year][$monthName] = isset($countsPerMonth[$year][$monthName]) ? $countsPerMonth[$year][$monthName] + 1 : 1;
+    });
+    return response()->json($countsPerMonth[$year]);
   }
 }

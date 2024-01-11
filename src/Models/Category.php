@@ -5,11 +5,10 @@ namespace Module\Cms\Models;
 use DnSoft\Core\Traits\AttributeAndTranslatableTrait;
 
 use DnSoft\Core\Traits\TreeCacheableTrait;
-use DnSoft\Media\Traits\HasMediaTrait;
+use DnSoft\Media\Traits\HasMediaTraitV3;
 use Illuminate\Database\Eloquent\Model;
 use Module\Cms\Http\Controllers\Web\CategoryController;
 use Module\Seo\Traits\SeoableTrait;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * Module\Cms\Models\Category
@@ -63,46 +62,63 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Category extends Model
 {
-    use TreeCacheableTrait;
-    use AttributeAndTranslatableTrait;
-    // use HasMediaTrait;
-    // use LogsActivity;
-    use SeoableTrait;
+  use TreeCacheableTrait;
+  use AttributeAndTranslatableTrait;
+  use SeoableTrait;
+  use HasMediaTraitV3;
 
-    protected static string $logName = 'cms_category';
+  protected static string $logName = 'cms_category';
 
-    protected $table = 'cms__categories';
+  protected $table = 'cms__categories';
 
-    protected $fillable = [
-        'name',
-        'parent_id',
-        'description',
-        'is_active',
-        'slug',
-        'is_featured',
-        'sort',
-        'icon',
-        'url',
-    ];
+  protected $fillable = [
+    'name',
+    'parent_id',
+    'description',
+    'content',
+    'is_active',
+    'slug',
+    'is_featured',
+    'sort',
+    'icon',
+    'url',
+    'thumbnail',
+  ];
 
-    public array $translatable = [
-        'name',
-        'description',
-        'slug',
-    ];
+  public array $translatable = [
+    'name',
+    'description',
+    'content',
+    'slug',
+  ];
 
-    public function posts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Post::class, 'cms__category_post');
-    }
+  public function posts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+  {
+    return $this->belongsToMany(Post::class, 'cms__category_post');
+  }
 
-    public function getUrl(): string
-    {
-        return route('cms.web.category.detail', $this->id);
-    }
+  public function getUrl(): string
+  {
+    return route('cms.web.category.detail', $this->id);
+  }
 
-    public function getController(): string
-    {
-        return CategoryController::class;
-    }
+  public function getController(): string
+  {
+    return CategoryController::class;
+  }
+
+  public function setThumbnailAttribute($value)
+  {
+    $this->mediaAttributes['thumbnail'] = $value;
+  }
+
+  public function getThumbnailAttribute()
+  {
+    return $this->getFirstMedia($this->getMediaConversion());
+  }
+
+  public function getMediaConversion()
+  {
+    return 'thumbnail';
+  }
 }

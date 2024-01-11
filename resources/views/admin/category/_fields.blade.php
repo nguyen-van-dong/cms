@@ -22,6 +22,7 @@
                 @textarea(['name' => 'description', 'label' => __('cms::category.description')])
                 @input(['name' => 'icon', 'label' => __('Icon'), ])
                 @input(['name' => 'sort', 'label' => __('Sort'), ])
+                @simpleCkeditor(['name' => 'content', 'label' => __('cms::post.content'), ])
                 @checkbox(['name' => 'is_featured', 'label' => __('cms::category.is_featured') ])
                 @checkbox(['name' => 'is_active', 'label' => __('cms::category.is_active'), 'default' => true])
             </div>
