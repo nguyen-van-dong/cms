@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Module\Cms\Http\Controllers\Admin\CategoryController;
+use Module\Cms\Http\Controllers\Admin\CommentController;
 use Module\Cms\Http\Controllers\Admin\PostController;
 use Module\Cms\Http\Controllers\Admin\PageController;
 use Module\Cms\Http\Controllers\Admin\PostAttributeController;
@@ -127,5 +129,18 @@ Route::prefix('cms')->group(function () {
     Route::delete('{id}/destroy', [PageController::class, 'destroy'])
       ->name('cms.admin.page.destroy')
       ->middleware('admin.can:cms.admin.page.destroy');
+  });
+
+  Route::prefix('comment')->group(function () {
+
+    Route::post('{id}/reply', [CommentController::class, 'reply'])->name('cms.admin.comment.reply');
+
+    Route::post('publish', [CommentController::class, 'publish'])
+      ->name('cms.admin.comment d.publish')
+      ->middleware('admin.can:cms.admin.comment.publish');
+
+    Route::delete('{id}/destroy', [CommentController::class, 'destroy'])
+      ->name('cms.admin.comment.destroy')
+      ->middleware('admin.can:cms.admin.comment.destroy');
   });
 });

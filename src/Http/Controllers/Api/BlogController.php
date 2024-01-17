@@ -3,6 +3,7 @@
 namespace Module\Cms\Http\Controllers\Api;
 
 use DateTime;
+use DnSoft\Core\Utils\BuildTree;
 use DnSoft\Core\Utils\Core;
 use Module\Cms\Http\Resources\CategoryDetailResource;
 use Module\Cms\Http\Resources\CategoryResource;
@@ -40,6 +41,7 @@ class BlogController extends Controller
    */
   public function detail($id)
   {
+    $itemOnPage = 10;
     if (is_numeric($id)) {
       $category = Category::findOrFail($id);
       return new CategoryDetailResource($category);
@@ -50,9 +52,9 @@ class BlogController extends Controller
     $category = Category::findOrFail($url->urlable_id);
     $posts = $category->posts()->with(['author', 'categories', 'comments' => function ($query) {
       $query->where('is_published', 1);
-    }])->where('is_active', 1)->orderBy('published_at', 'DESC')->paginate(10);
+    }])->where('is_active', 1)->orderBy('published_at', 'DESC')->paginate($itemOnPage);
     return [
-      'posts' => PostResource::collection($posts),
+      'posts' => PostResource::collection($posts)->response()->getData(true),
       'category' => new CategoryResource($category)
     ];
   }
@@ -75,6 +77,7 @@ class BlogController extends Controller
    */
   public function posts(Request $request)
   {
+    $itemOnPage = 10;
     $keyword = $request->get('q');
     if ($keyword) {
       $posts = Post::with(['author', 'categories', 'comments' => function ($query) {
@@ -84,7 +87,7 @@ class BlogController extends Controller
           $query->where('name', 'LIKE', '%' . $keyword . '%')
             ->orWhere('content', 'LIKE', '%' . $keyword . '%');
         })
-        ->orderBy('id', 'DESC')->paginate(8);
+        ->orderBy('id', 'DESC')->paginate($itemOnPage);
     } elseif ($month = $request->search) {
       $year = $request->year;
       if (!$year) {
@@ -92,11 +95,11 @@ class BlogController extends Controller
       }
       $posts = Post::whereYear('created_at', '=', $year)
         ->whereMonth('created_at', '=', date('n', strtotime($month)))
-        ->paginate(10);
+        ->paginate($itemOnPage);
     } else {
       $posts = Post::with(['author', 'categories', 'comments' => function ($query) {
         $query->where('is_published', 1);
-      }])->where('is_active', true)->orderBy('id', 'DESC')->paginate(8);
+      }])->where('is_active', true)->orderBy('id', 'DESC')->paginate($itemOnPage);
     }
     return PostResource::collection($posts);
   }
@@ -122,6 +125,7 @@ class BlogController extends Controller
     }
     return [
       'post' => new PostDetailResource($post),
+      'comments' => BuildTree::buildCommentTree($post->comments()->where('is_published', true)->get()),
       'related_posts' => $relatedPosts ? PostDetailResource::collection($relatedPosts) : []
     ];
   }

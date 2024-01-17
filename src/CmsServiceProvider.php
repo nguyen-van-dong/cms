@@ -106,22 +106,22 @@ class CmsServiceProvider extends BaseModuleServiceProvider
       $menu->add('Category', [
         'route' => 'cms.admin.category.index',
         'parent' => $menu->content->id,
-      ])->nickname('cms_category')->data('order', 2)->prepend('<i class="fas fa-check-double"></i>');
+      ])->nickname('cms_category')->data('order', 2)->prepend('<i class="mdi mdi-content-paste"></i>');
 
       $menu->add('Post', [
         'route' => 'cms.admin.post.index',
         'parent' => $menu->content->id
-      ])->nickname('cms_post')->data('order', 3)->prepend('<i class="far fa-file-word"></i>');
+      ])->nickname('cms_post')->data('order', 3)->prepend('<i class="remixicon-table-line"></i>');
 
       $menu->add('Page', [
         'route' => 'cms.admin.page.index',
         'parent' => $menu->content->id
-      ])->nickname('cms_page')->data('order', 4)->prepend('<i class="fab fa-playstation"></i>');
+      ])->nickname('cms_page')->data('order', 4)->prepend('<i class="mdi mdi-notebook"></i>');
 
       $menu->add('Post Attribute', [
         'route' => 'cms.admin.post-attribute.index',
         'parent' => $menu->content->id
-      ])->nickname('cms_post_attribute')->data('order', 3)->prepend('<i class="fab fa-500px"></i>');
+      ])->nickname('cms_post_attribute')->data('order', 3)->prepend('<i class="mdi mdi-postage-stamp"></i>');
 
       event(CmsAdminMenuRegistered::class, $menu);
     });

@@ -3,13 +3,12 @@
 namespace Module\Cms\Models;
 
 use DnSoft\Core\Traits\AttributeAndTranslatableTrait;
-use DnSoft\Core\Traits\SlugAttributeTrait;
 use DnSoft\Core\Traits\TaggableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Module\Cms\Http\Controllers\Web\PostController;
 use Module\Seo\Traits\SeoableTrait;
 use DnSoft\Media\Traits\HasMediaTraitV3;
-use Module\Comment\Models\Comment;
+use Module\Cms\Models\Comment;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 
@@ -192,6 +191,6 @@ class Post extends Model implements Feedable
 
   public function comments()
   {
-    return $this->morphMany(Comment::class, 'table');
+    return $this->hasMany(Comment::class);
   }
 }

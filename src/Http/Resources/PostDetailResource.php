@@ -25,7 +25,7 @@ class PostDetailResource extends JsonResource
       'image' => $this->thumbnail ? $this->thumbnail->url : null,
       'author' => $this->author->display_name ? $this->author->display_name : $this->author->name,
       'created_at' => $this->created_at->toFormattedDateString(),
-      'comments_count' => $this->comments->count(),
+      'comments_count' => $this->comments()->where('is_published', true)->count(),
       'count_like' => $this->like,
       'viewed' => $this->view_count,
     ];

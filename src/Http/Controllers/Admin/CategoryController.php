@@ -106,6 +106,7 @@ class CategoryController extends Controller
 
   public function update($id, CategoryRequest $request)
   {
+    // dd($request->all());
     $item = $this->categoryRepository->updateById($request->all(), $id);
 
     //        $item->syncMedia($request->input('gallery', []), 'gallery');

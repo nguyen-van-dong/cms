@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Module\Cms\Http\Controllers\Api\BlogController;
+use Module\Cms\Http\Controllers\Api\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,5 @@ Route::get('/categories/detail/{id}', [BlogController::class, 'getCategoryDetail
 Route::get('/posts', [BlogController::class, 'posts'])->name('cms.api.blog.posts');
 Route::get('/posts/{slug}', [BlogController::class, 'getPostBySlug'])->name('cms.api.blog.get-post');
 Route::get('/archives', [BlogController::class, 'getArchives'])->name('cms.api.blog.archives');
+Route::get('/cms/comments/{post_id}', [CommentController::class, 'getComments'])->name('cms.api.blog.get-comments');
+Route::post('/cms/comment', [CommentController::class, 'store'])->name('cms.api.blog.comment');

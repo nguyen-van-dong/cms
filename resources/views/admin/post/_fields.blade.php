@@ -6,6 +6,12 @@
   </li>
 
   <li class="nav-item">
+    <a class="nav-link save-tab" data-toggle="pill" href="#cmsComment">
+      {{ __('Comment') }}
+    </a>
+  </li>
+
+  <li class="nav-item">
     <a class="nav-link save-tab" data-toggle="pill" href="#cmsPostAttribute">
       {{ __('cms::post.tabs.attribute') }}
     </a>
@@ -28,6 +34,10 @@
         @checkbox(['name' => 'is_active', 'label' => __('Is Published'),])
       </div>
     </div>
+  </div>
+
+  <div class="tab-pane fade" id="cmsComment">
+    @include('cms::admin.post.comment', ['items' => $item->comments()->withDepth()->defaultOrder()->get(), 'post' => $item])
   </div>
 
   <div class="tab-pane fade" id="cmsPostAttribute">

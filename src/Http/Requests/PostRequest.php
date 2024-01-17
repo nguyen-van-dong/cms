@@ -25,6 +25,7 @@ class PostRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'tags' => 'required',
         ];
     }
 }
